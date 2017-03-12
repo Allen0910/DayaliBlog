@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DayaliBlog_Web.Controllers
+namespace DayaliBlog.Web.Controllers
 {
     public class HomeController : Controller
     {

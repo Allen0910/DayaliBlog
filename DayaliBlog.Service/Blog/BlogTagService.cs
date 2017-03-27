@@ -49,6 +49,11 @@ namespace DayaliBlog.Service.Blog
             }
         }
 
+        /// <summary>
+        /// 修改标签
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         public bool Update(T_BLOG_TAG model)
         {
             StringBuilder strSql = new StringBuilder();

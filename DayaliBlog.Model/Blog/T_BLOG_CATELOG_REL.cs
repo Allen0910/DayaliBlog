@@ -9,15 +9,15 @@ namespace DayaliBlog.Model.Blog
 		public T_BLOG_CATELOG_REL()
 		{}
 		#region Model
-		private int _blogid;
+		private int _BlogID;
 		private int _catelogid;
 		/// <summary>
 		/// 
 		/// </summary>
 		public int BlogID
 		{
-			set{ _blogid=value;}
-			get{return _blogid;}
+			set{ _BlogID=value;}
+			get{return _BlogID;}
 		}
 		/// <summary>
 		/// 

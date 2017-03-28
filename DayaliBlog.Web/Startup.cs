@@ -55,7 +55,7 @@ namespace DayaliBlog.Web
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name:"areaRoute", 
+                    name: "areaRoute",
                     template:"{area:exists}/{controller}/{action=Index}/{id?}");
 
                 routes.MapRoute(

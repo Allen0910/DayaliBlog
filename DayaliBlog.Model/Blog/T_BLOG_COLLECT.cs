@@ -11,7 +11,7 @@ namespace DayaliBlog.Model.Blog
 		#region Model
 		private int _collectid;
 		private int _collectstate;
-		private int _blogid;
+		private int _BlogID;
 		private int _collecter;
 		private DateTime? _collecttime;
 		private string _remark;
@@ -36,8 +36,8 @@ namespace DayaliBlog.Model.Blog
 		/// </summary>
 		public int BlogID
 		{
-			set{ _blogid=value;}
-			get{return _blogid;}
+			set{ _BlogID=value;}
+			get{return _BlogID;}
 		}
 		/// <summary>
 		/// 

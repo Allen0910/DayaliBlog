@@ -20,9 +20,9 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                var resId = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser,UpdateUser) VALUES (@CatelogName,@CreateUser,@UpdateUser);" +
+                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser) VALUES (@CatelogName,@CreateUser);" +
                     " SELECT  @@IDENTITY",categry).First();
-                return resId;
+                return resBlogID;
             }
         }
 
@@ -30,9 +30,9 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                var resId = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser,UpdateUser) VALUES (@CatelogName,@CreateUser,@UpdateUser);" +
+                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser,UpdateUser) VALUES (@CatelogName,@CreateUser,@UpdateUser);" +
                     " SELECT  @@IDENTITY", categry, transaction).First();
-                return resId;
+                return resBlogID;
             }
         }
 
@@ -45,19 +45,16 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update T_BLOG_CATELOG set ");
-            strSql.Append("CatelogID=@CatelogID,");
             strSql.Append("ParentCategID=@ParentCategID,");
             strSql.Append("CatelogName=@CatelogName,");
-            strSql.Append("CreateUser=@CreateUser,");
-            strSql.Append("CreateTime=@CreateTime,");
             strSql.Append("UpdateUser=@UpdateUser,");
             strSql.Append("UpdateTime=@UpdateTime,");
             strSql.Append("Remark=@Remark");
-            strSql.Append("WHERE CatelogID=@CatelogID");
+            strSql.Append(" WHERE CatelogID=@CatelogID");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId=conn.Execute(strSql.ToString(), categry);
-                return resId > 0;
+                int resBlogID=conn.Execute(strSql.ToString(), categry);
+                return resBlogID > 0;
             }
         }
 
@@ -76,6 +73,7 @@ namespace DayaliBlog.Service.Blog
                 {
                     strSql += "where " + where;
                 }
+                strSql += " order by CreateTime DESC";
                 var list= conn.Query<T_BLOG_CATELOG>(strSql).ToList();
                 return list;
             }
@@ -84,14 +82,14 @@ namespace DayaliBlog.Service.Blog
         /// <summary>
         /// 删除博客类别
         /// </summary>
-        /// <param name="categId"></param>
+        /// <param name="categBlogID"></param>
         /// <returns></returns>
-        public bool Delete(int categId)
+        public bool Delete(int categBlogID)
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId = conn.Execute("delete from dbo.T_BLOG_CATELOG where CatelogID=@id", new{id = categId});
-                if (resId > 0)
+                int resBlogID = conn.Execute("delete from dbo.T_BLOG_CATELOG where CatelogID=@id", new{id = categBlogID});
+                if (resBlogID > 0)
                     return true;
                 return false;
             }

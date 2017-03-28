@@ -12,8 +12,8 @@ namespace DayaliBlog.Web.Controllers
         public IActionResult Index()
         {
             BlogCategService service = new BlogCategService();
-            var resId= service.Insert(new T_BLOG_CATELOG { CatelogName="Python",CreateUser=1,UpdateUser=1});
-            return Content("新增大类ID为："+resId);
+            var resBlogID= service.Insert(new T_BLOG_CATELOG { CatelogName="Python",CreateUser=1,UpdateUser=1});
+            return Content("新增大类ID为："+resBlogID);
         }
         
 

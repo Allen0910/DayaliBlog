@@ -616,7 +616,7 @@ $.validator.addMethod( "nieES", function( value ) {
 }, "Please specify a valid NIE number." );
 
 /*
- * The Número de Identificación Fiscal ( NIF ) is the way tax identification used in Spain for individuals
+ * The Número de BlogIDentificación Fiscal ( NIF ) is the way tax identification used in Spain for individuals
  */
 $.validator.addMethod( "nifES", function( value ) {
 	"use strict";

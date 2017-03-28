@@ -14,7 +14,7 @@ namespace DayaliBlog.Model.Blog
 		private int _replytype;
 		private string _replycomment;
 		private bool _replystate;
-		private int _blogid;
+		private int _BlogID;
 		private int _replyuserid;
 		private DateTime _replytime;
 		/// <summary>
@@ -62,8 +62,8 @@ namespace DayaliBlog.Model.Blog
 		/// </summary>
 		public int BlogID
 		{
-			set{ _blogid=value;}
-			get{return _blogid;}
+			set{ _BlogID=value;}
+			get{return _BlogID;}
 		}
 		/// <summary>
 		/// 

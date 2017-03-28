@@ -21,15 +21,15 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_CONTENT(");
-            strSql.Append("BlogID,BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark)");
+            strSql.Append("BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@BlogID,@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
+            strSql.Append("@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int contentId=conn.Query<int>(strSql.ToString(),model).First();
-                return contentId;
+                int contentBlogID=conn.Query<int>(strSql.ToString(),model).First();
+                return contentBlogID;
             }
         }
 
@@ -37,15 +37,15 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_CONTENT(");
-            strSql.Append("BlogID,BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark)");
+            strSql.Append("BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@BlogID,@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
+            strSql.Append("@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                int contentId = conn.Query<int>(strSql.ToString(), model, transaction).First();
-                return contentId;
+                int contentBlogID = conn.Query<int>(strSql.ToString(), model, transaction).First();
+                return contentBlogID;
             }
         }
 
@@ -63,16 +63,14 @@ namespace DayaliBlog.Service.Blog
             strSql.Append("BlogType=@BlogType,");
             strSql.Append("BlogState=@BlogState,");
             strSql.Append("LastUptTime=@LastUptTime,");
-            strSql.Append("CreateUser=@CreateUser,");
-            strSql.Append("CreateTIme=@CreateTIme,");
             strSql.Append("UpdateUser=@UpdateUser,");
             strSql.Append("UpdateTIme=@UpdateTIme,");
             strSql.Append("Remark=@Remark");
-            strSql.Append("where BlogID=@BlogID");
+            strSql.Append(" where BlogID=@BlogID");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId = conn.Execute(strSql.ToString(), model);
-                return resId > 0;
+                int resBlogID = conn.Execute(strSql.ToString(), model);
+                return resBlogID > 0;
             }
         }
 
@@ -83,16 +81,26 @@ namespace DayaliBlog.Service.Blog
         /// <returns></returns>
         public List<T_BLOG_CONTENT> GetList(string where)
         {
-            string strSql = "select BlogID,BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark ";
+            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
+            strSql += " inner join T_BLOG_CATELOG_REL r on r.BlogID=b.BlogID ";
+            strSql += " inner join T_BLOG_CATELOG g on g.CatelogID=r.CatelogID ";
+            strSql += " inner join T_SYS_CONFIG c on c.ID=2 and c.SUB_ID=b.BlogType";
             if (!string.IsNullOrEmpty(where))
             {
-                strSql += "where " + where;
+                strSql += " where " + where;
             }
+            strSql += " order by LastUptTime desc";
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
                 var list = conn.Query<T_BLOG_CONTENT>(strSql).ToList();
                 return list;
             }
+        }
+
+        public T_BLOG_CONTENT GetModel(string where)
+        {
+            var src = GetList(where);
+            return src != null ? src.First() : null;
         }
 
         /// <summary>
@@ -105,8 +113,8 @@ namespace DayaliBlog.Service.Blog
             string strSql = "delete from T_BLOG_CONTENT where BlogID=@id";
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId = conn.Execute(strSql, new {id});
-                return resId > 0;
+                int resBlogID = conn.Execute(strSql, new {id});
+                return resBlogID > 0;
             }
         }
     }

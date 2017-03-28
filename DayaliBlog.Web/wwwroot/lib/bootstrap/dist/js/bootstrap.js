@@ -1438,11 +1438,11 @@ if (typeof jQuery === 'undefined') {
 
       var $tip = this.tip()
 
-      var tipId = this.getUID(this.type)
+      var tipBlogID = this.getUID(this.type)
 
       this.setContent()
-      $tip.attr('id', tipId)
-      this.$element.attr('aria-describedby', tipId)
+      $tip.attr('id', tipBlogID)
+      this.$element.attr('aria-describedby', tipBlogID)
 
       if (this.options.animation) $tip.addClass('fade')
 
@@ -1679,7 +1679,7 @@ if (typeof jQuery === 'undefined') {
 
   Tooltip.prototype.getUID = function (prefix) {
     do prefix += ~~(Math.random() * 1000000)
-    while (document.getElementById(prefix))
+    while (document.getElementByBlogID(prefix))
     return prefix
   }
 

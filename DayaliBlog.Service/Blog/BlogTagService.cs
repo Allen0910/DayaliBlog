@@ -21,15 +21,15 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_TAG(");
-            strSql.Append("TagID,TagName,CreateUser,CreateTime,UpdateUser,UpdateTime,Remark)");
+            strSql.Append("TagName,CreateUser,CreateTime,UpdateUser,UpdateTime,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@TagID,@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
+            strSql.Append("@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
             strSql.Append(" ;SELECT @@IDENTITY;");
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                int tagId=conn.Query<int>(strSql.ToString(), model).First();
-                return tagId;
+                int tagBlogID=conn.Query<int>(strSql.ToString(), model).First();
+                return tagBlogID;
             }
         }
 
@@ -37,15 +37,15 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_TAG(");
-            strSql.Append("TagID,TagName,CreateUser,CreateTime,UpdateUser,UpdateTime,Remark)");
+            strSql.Append("TagName,CreateUser,CreateTime,UpdateUser,UpdateTime,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@TagID,@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
+            strSql.Append("@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
             strSql.Append(" ;SELECT @@IDENTITY;");
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
-                int tagId = conn.Query<int>(strSql.ToString(), model, transaction).First();
-                return tagId;
+                int tagBlogID = conn.Query<int>(strSql.ToString(), model, transaction).First();
+                return tagBlogID;
             }
         }
 
@@ -67,8 +67,8 @@ namespace DayaliBlog.Service.Blog
             strSql.Append(" where TagID=@TagID");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId=conn.Execute(strSql.ToString(), model);
-                return resId > 0;
+                int resBlogID=conn.Execute(strSql.ToString(), model);
+                return resBlogID > 0;
             }
         }
 
@@ -103,8 +103,8 @@ namespace DayaliBlog.Service.Blog
             string strSql = "delete from T_BLOG_TAG where TagID=@id";
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId=conn.Execute(strSql, new {id = id});
-                return resId > 0;
+                int resBlogID=conn.Execute(strSql, new {id = id});
+                return resBlogID > 0;
             }
         }
     }

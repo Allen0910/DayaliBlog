@@ -56,7 +56,7 @@ namespace DayaliBlog.Model.Sys
 		/// <summary>
 		/// 
 		/// </summary>
-		public string IdCard
+		public string BlogIDCard
 		{
 			set{ _idcard=value;}
 			get{return _idcard;}

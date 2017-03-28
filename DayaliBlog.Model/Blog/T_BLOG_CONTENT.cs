@@ -8,9 +8,9 @@ namespace DayaliBlog.Model.Blog
 	{
 		public T_BLOG_CONTENT()
 		{}
-		#region Model
-		private int _blogid;
-		private string _blogtitle;
+        #region Model
+        private int _BlogID;
+        private string _blogtitle;
 		private string _blogcontent;
 		private int _blogtype;
 		private int _blogstate;
@@ -20,18 +20,21 @@ namespace DayaliBlog.Model.Blog
 		private int _updateuser;
 		private DateTime? _updatetime;
 		private string _remark;
-		/// <summary>
-		/// 
-		/// </summary>
-		public int BlogID
-		{
-			set{ _blogid=value;}
-			get{return _blogid;}
-		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public string BlogTitle
+	    private string _blogTypeName;
+	    private int _catelogID;
+	    private string _catelogName;
+        /// <summary>
+        /// 
+        /// </summary>
+        public int BlogID
+        {
+            set { _BlogID = value; }
+            get { return _BlogID; }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public string BlogTitle
 		{
 			set{ _blogtitle=value;}
 			get{return _blogtitle;}
@@ -108,8 +111,26 @@ namespace DayaliBlog.Model.Blog
 			set{ _remark=value;}
 			get{return _remark;}
 		}
-		#endregion Model
 
-	}
+	    public string BlogTypeName
+	    {
+            get { return _blogTypeName; }
+            set { _blogTypeName = value; }
+	    }
+
+	    public int CatelogID
+        {
+            get { return _catelogID; }
+            set { _catelogID = value; }
+        }
+
+	    public string CatelogName
+        {
+            get { return _catelogName; }
+            set { _catelogName = value; }
+        }
+        #endregion Model
+
+    }
 }
 

@@ -9,7 +9,7 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogTagRelService
     {
-        public int Insert(int blogId, int tagId,IDbTransaction transaction)
+        public int Insert(int BlogID, int tagBlogID,IDbTransaction transaction)
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_TAG_REL(");
@@ -19,8 +19,8 @@ namespace DayaliBlog.Service.Blog
             strSql.Append("@BlogID,@TagID)");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int resId = conn.Execute(strSql.ToString(), new {BlogID = blogId, TagID = tagId}, transaction);
-                return resId;
+                int resBlogID = conn.Execute(strSql.ToString(), new {BlogID = BlogID, TagID = tagBlogID}, transaction);
+                return resBlogID;
             }
         }
     }

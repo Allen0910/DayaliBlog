@@ -10,7 +10,7 @@ namespace DayaliBlog.Model.Blog
 		{}
 		#region Model
 		private int _recordid;
-		private int _blogid;
+		private int _BlogID;
 		private int _rederid;
 		private DateTime? _readlasttime;
 		/// <summary>
@@ -26,8 +26,8 @@ namespace DayaliBlog.Model.Blog
 		/// </summary>
 		public int BlogID
 		{
-			set{ _blogid=value;}
-			get{return _blogid;}
+			set{ _BlogID=value;}
+			get{return _BlogID;}
 		}
 		/// <summary>
 		/// 

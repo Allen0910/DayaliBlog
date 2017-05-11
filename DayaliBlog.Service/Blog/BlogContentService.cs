@@ -97,10 +97,47 @@ namespace DayaliBlog.Service.Blog
             }
         }
 
+        public List<T_BLOG_CONTENT> GetListByPage(string orderBy,int pageSize,int pageIndex,string where)
+        {
+            if (!string.IsNullOrEmpty(where))
+            {
+                where = " where " + where;
+            }
+            if (string.IsNullOrEmpty(orderBy))
+            {
+                orderBy = " order by LastUptTime desc ";
+            }
+            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
+            strSql += " inner join T_BLOG_CATELOG_REL r on r.BlogID=b.BlogID ";
+            strSql += " inner join T_BLOG_CATELOG g on g.CatelogID=r.CatelogID ";
+            strSql += " inner join T_SYS_CONFIG c on c.ID=2 and c.SUB_ID=b.BlogType ";
+            string strFormat = string.Format(strSql + "{0} "+orderBy+" offset {1} rows  fetch next {2} rows only ",where,(pageIndex-1)*pageSize,pageSize);
+            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            {
+                var list = conn.Query<T_BLOG_CONTENT>(strFormat).ToList();
+                return list;
+            }
+        }
+
+        public int GetCount(string where)
+        {
+            string strSql = " SELECT COUNT(1) FROM T_BLOG_CONTENT b ";
+            strSql += " INNER join T_BLOG_CATELOG_REL g on g.BlogID=b.BlogID ";
+            if (!string.IsNullOrEmpty(where))
+            {
+                strSql += $" WHERE {where}";
+            }
+            using (var connection = ConnentionFactory.GetOpenSqlConnection())
+            {
+                int res = connection.ExecuteScalar<int>(strSql);
+                return res;
+            }
+        }
+
         public T_BLOG_CONTENT GetModel(string where)
         {
             var src = GetList(where);
-            return src != null ? src.First() : null;
+            return src?.First();
         }
 
         /// <summary>

@@ -15,6 +15,11 @@ namespace DayaliBlog.Web.Controllers
             return View();
         }
 
+        public IActionResult Detail()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             ViewData["Message"] = "Your application description page.";

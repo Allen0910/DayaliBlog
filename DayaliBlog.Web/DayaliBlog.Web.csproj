@@ -146,6 +146,7 @@
     <Content Include="wwwroot\adminstyle\js\jsapi.js" />
     <Content Include="wwwroot\adminstyle\js\PIE.htc" />
     <Content Include="wwwroot\adminstyle\js\select-ui.min.js" />
+    <Content Include="wwwroot\images\WelCome.jpg" />
     <Content Include="wwwroot\layui\css\layui.css" />
     <Content Include="wwwroot\layui\css\layui.mobile.css" />
     <Content Include="wwwroot\layui\css\modules\code.css" />
@@ -254,6 +255,7 @@
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="1.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="1.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="1.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="1.1.1" />
@@ -261,6 +263,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
@@ -274,6 +277,7 @@
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Areas\Admin\Views\Login\" />
     <Folder Include="Areas\Admin\Views\Blog\" />
+    <Folder Include="Areas\Admin\Views\Sys\" />
   </ItemGroup>
 
 </Project>

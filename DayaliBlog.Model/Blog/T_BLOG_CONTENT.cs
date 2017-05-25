@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace DayaliBlog.Model.Blog
 {
 	/// <summary>
@@ -34,11 +36,14 @@ namespace DayaliBlog.Model.Blog
         /// <summary>
         /// 
         /// </summary>
+        [Display(Name = "标题")]
+        [Required(ErrorMessage = "博客标题不能为空")]
+        [StringLength(12, MinimumLength = 1, ErrorMessage = "博客标题长度不能超过12个字")]
         public string BlogTitle
 		{
-			set{ _blogtitle=value;}
-			get{return _blogtitle;}
-		}
+			set => _blogtitle=value;
+            get => _blogtitle;
+        }
 		/// <summary>
 		/// 
 		/// </summary>
@@ -47,18 +52,20 @@ namespace DayaliBlog.Model.Blog
 			set{ _blogcontent=value;}
 			get{return _blogcontent;}
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int BlogType
+        /// <summary>
+        /// 
+        /// </summary>
+        [Required]
+        public int BlogType
 		{
 			set{ _blogtype=value;}
 			get{return _blogtype;}
 		}
-		/// <summary>
-		/// 
-		/// </summary>
-		public int BlogState
+        /// <summary>
+        /// 
+        /// </summary>
+        [Required]
+        public int BlogState
 		{
 			set{ _blogstate=value;}
 			get{return _blogstate;}
@@ -76,59 +83,59 @@ namespace DayaliBlog.Model.Blog
 		/// </summary>
 		public int CreateUser
 		{
-			set{ _createuser=value;}
-			get{return _createuser;}
+			set => _createuser=value;
+		    get => _createuser;
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		public DateTime? CreateTIme
 		{
-			set{ _createtime=value;}
-			get{return _createtime;}
+			set => _createtime=value;
+		    get => _createtime;
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		public int UpdateUser
 		{
-			set{ _updateuser=value;}
-			get{return _updateuser;}
+			set => _updateuser=value;
+		    get{return _updateuser;}
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		public DateTime? UpdateTIme
 		{
-			set{ _updatetime=value;}
-			get{return _updatetime;}
+			set => _updatetime=value;
+		    get => _updatetime;
 		}
 		/// <summary>
 		/// 
 		/// </summary>
 		public string Remark
 		{
-			set{ _remark=value;}
-			get{return _remark;}
+			set => _remark=value;
+		    get => _remark;
 		}
 
 	    public string BlogTypeName
 	    {
-            get { return _blogTypeName; }
-            set { _blogTypeName = value; }
+            get => _blogTypeName;
+	        set => _blogTypeName = value;
 	    }
 
 	    public int CatelogID
         {
-            get { return _catelogID; }
-            set { _catelogID = value; }
-        }
+            get => _catelogID;
+	        set => _catelogID = value;
+	    }
 
 	    public string CatelogName
         {
-            get { return _catelogName; }
-            set { _catelogName = value; }
-        }
+            get => _catelogName;
+	        set => _catelogName = value;
+	    }
         #endregion Model
 
     }

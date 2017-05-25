@@ -2,15 +2,16 @@
 <blockquote class="layui-elem-quote">添加博客</blockquote>
 <form class="layui-form" method="post" action="">
     <div class="layui-form-item">
-        <label class="layui-form-label">标题</label>
+        <label class="layui-form-label">@Html.DisplayNameFor(a => a.BlogTitle)</label>
         <div class="layui-input-block">
             @Html.TextBoxFor(a=>a.BlogTitle,new { placeholder = "请输入标题", @class="layui-input"})
+            @Html.ValidationMessageFor(a=>a.BlogTitle)
         </div>
     </div>
     <input type="hidden" value="@Model.BlogID" name="BlogID"/>
     <div class="layui-form-item">
         <label class="layui-form-label">博客类型</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block"  style="width: 30%">
             <select name="BlogType" lay-verify="required">
                 @foreach (DayaliBlog.Model.Sys.T_SYS_CONFIG config in ViewBag.BlogTypes)
                 {
@@ -26,7 +27,7 @@
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">所属分类</label>
-        <div class="layui-input-block">
+        <div class="layui-input-block" style="width: 30%">
             <select name="CatelogID" lay-verify="required">
                 @foreach (DayaliBlog.Model.Blog.T_BLOG_CATELOG categ in ViewBag.CategList)
                 {
@@ -43,7 +44,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">内容</label>
         <div class="layui-input-block">
-            @Html.TextAreaFor(a=>a.BlogContent,new{ placeholder = "请输入内容" ,@class="layui-textarea"})
+            @Html.TextAreaFor(a=>a.BlogContent,new{ placeholder = "请输入内容" ,@class="layui-textarea",id="txtContent"})
         </div>
     </div>
     <div class="layui-form-item">
@@ -54,8 +55,36 @@
     </div>
     <div class="layui-form-item">
         <div class="layui-input-block">
-            <input class="layui-btn" style="max-width: 100px" lay-submit lay-filter="formDemo" type="submit" value="提交"/>
+            <input class="layui-btn" style="max-width: 100px" lay-filter="formDemo" type="submit" value="提交"/>
+            @Html.AntiForgeryToken()
         </div>
     </div>
 </form>
-
+<script type="text/javascript">
+    layui.use('layedit', function(){
+        var layedit = layui.layedit
+            , $ = layui.jquery;
+        //注意：layedit.set 一定要放在 build 前面，否则配置全局接口将无效。
+        layedit.set({
+            uploadImage: {
+                url: '/Admin/Blog/ImgUpload' //接口url
+                , type: 'post' //默认post
+            }
+        });
+        //构建一个默认的编辑器
+        var index = layedit.build('txtContent');
+        
+        //编辑器外部操作
+        //var active = {
+        //    content: function(){
+        //        alert(layedit.getContent(index)); //获取编辑器内容
+        //    }
+        //    ,text: function(){
+        //        alert(layedit.getText(index)); //获取编辑器纯文本内容
+        //    }
+        //    ,selection: function(){
+        //        alert(layedit.getSelection(index));
+        //    }
+        //};
+  })
+</script>

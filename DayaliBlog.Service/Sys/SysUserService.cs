@@ -20,12 +20,31 @@ namespace DayaliBlog.Service.Sys
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select UserID,UserName,Password,PersonalID,QQOpenid,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM T_SYS_USER ");
-            strSql.Append(" where UserName=@UserName and Password=@PassWrod");
+            strSql.Append(" where UserName=@userName and Password=@passWord");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
                 var list= conn.Query<T_SYS_USER>(strSql.ToString(), new {UserName = userName, PassWord = passWord}).ToList();
                 return list;
             }
         }
+
+        /// <summary>
+        /// 修改密码
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Update(T_SYS_USER model)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("update T_SYS_USER set ");
+            strSql.Append("Password=@Password");
+            strSql.Append(" where UserID=@UserID");
+            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            {
+                int resUserId = conn.Execute(strSql.ToString(), model);
+                return resUserId > 0;
+            }
+        }
+
     }
 }

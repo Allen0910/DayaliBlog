@@ -35,13 +35,13 @@
     </div>
     <table class="layui-table">
         <thead>
-        <tr>
-            <th>博客标题</th>
-            <th>博客内容</th>
-            <th>博客类型</th>
-            <th>所属分类</th>
-            <th>发布时间</th>
-            <th>管理</th>
+        <tr style="height: 20px">
+            <th style="width: 100px">博客标题</th>
+            <th style="width: 100px">博客内容</th>
+            <th style="width: 100px">博客类型</th>
+            <th style="width: 100px">所属分类</th>
+            <th style="width: 100px">发布时间</th>
+            <th style="width: 100px">管理</th>
         </tr>
         </thead>
         <tbody id="content"/>
@@ -113,7 +113,7 @@
                 var html = '';
                 $.post(url, contion, function (data) {
                         $.each(data, function (i, b) {
-                            html += "<tr>" +
+                            html += "<tr  style='max-height:10px'>" +
                                 "<td>" +
                                 b.blogTitle +
                                 "</td>" +

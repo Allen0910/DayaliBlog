@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DayaliBlog.Model.Blog;
 using DayaliBlog.Service.Blog;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DayaliBlog.Web.Areas.Admin.Controllers
@@ -31,15 +32,16 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(T_BLOG_CATELOG model)
         {
+            int userId = HttpContext.Session.GetInt32("userid")==null?1:int.Parse(HttpContext.Session.GetInt32("userid").ToString());
             if (model.CatelogID == 0)
             {
-                model.CreateUser = 1;
+                model.CreateUser = userId;
                 model.CreateTime = DateTime.Now;
                 _categ.Insert(model);
             }
             else
             {
-                model.UpdateUser = 1;
+                model.UpdateUser = userId;
                 model.UpdateTime = DateTime.Now;
                 _categ.Update(model);
             }

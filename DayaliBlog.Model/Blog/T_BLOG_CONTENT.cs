@@ -13,6 +13,7 @@ namespace DayaliBlog.Model.Blog
         #region Model
         private int _BlogID;
         private string _blogtitle;
+	    private string _blogcover;
 		private string _blogcontent;
 		private int _blogtype;
 		private int _blogstate;
@@ -44,6 +45,17 @@ namespace DayaliBlog.Model.Blog
 			set => _blogtitle=value;
             get => _blogtitle;
         }
+
+        /// <summary>
+        /// 博客封面
+        /// </summary>
+        [Display(Name = "博客封面")]
+        [Required(ErrorMessage = "博客封面不能为空")]
+        public string BlogCover
+	    {
+	        set => _blogcover = value;
+	        get => _blogcover;
+	    }
 		/// <summary>
 		/// 
 		/// </summary>

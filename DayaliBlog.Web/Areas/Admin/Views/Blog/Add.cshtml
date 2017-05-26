@@ -8,6 +8,13 @@
             @Html.ValidationMessageFor(a=>a.BlogTitle)
         </div>
     </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">@Html.DisplayNameFor(a => a.BlogCover)</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(a=>a.BlogCover, new { @class="layui-input",id="txtCover",style= "width:250px;position:absolute;margin-left:120px",@readonly=true })
+            <input type="file" name="BlogCover" class="layui-upload-file" >
+        </div>
+    </div>
     <input type="hidden" value="@Model.BlogID" name="BlogID"/>
     <div class="layui-form-item">
         <label class="layui-form-label">博客类型</label>
@@ -61,30 +68,37 @@
     </div>
 </form>
 <script type="text/javascript">
-    layui.use('layedit', function(){
-        var layedit = layui.layedit
-            , $ = layui.jquery;
-        //注意：layedit.set 一定要放在 build 前面，否则配置全局接口将无效。
-        layedit.set({
-            uploadImage: {
-                url: '/Admin/Blog/ImgUpload' //接口url
-                , type: 'post' //默认post
-            }
+    layui.use('layedit',
+        function() {
+            var layedit = layui.layedit, $ = layui.jquery;
+            //注意：layedit.set 一定要放在 build 前面，否则配置全局接口将无效。
+            layedit.set({
+                uploadImage: {
+                    url: '/Admin/Blog/ImgUpload' //接口url
+                    ,type: 'post' //默认post
+                }
+            });
+            //构建一个默认的编辑器
+            layedit.build('txtContent');
         });
-        //构建一个默认的编辑器
-        var index = layedit.build('txtContent');
-        
-        //编辑器外部操作
-        //var active = {
-        //    content: function(){
-        //        alert(layedit.getContent(index)); //获取编辑器内容
-        //    }
-        //    ,text: function(){
-        //        alert(layedit.getText(index)); //获取编辑器纯文本内容
-        //    }
-        //    ,selection: function(){
-        //        alert(layedit.getSelection(index));
-        //    }
-        //};
-  })
+
+    layui.use('upload',
+        function () {
+            var $ = layui.jquery;
+            layui.upload({
+                url: '/Admin/Blog/ImgUpload',
+                ext: 'jpg|png|gif',
+                title: '上传封面',
+                before: function(input) {
+                    //返回的参数item，即为当前的input DOM对象
+                    console.log('文件上传中');
+                },
+                success: function (res) {
+                    console.log(res);
+                    var json = res.data;
+                    console.log(json.src);
+                    $("#txtCover").val(json.src);
+                }
+            });
+        });
 </script>

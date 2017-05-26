@@ -6,6 +6,7 @@ using DayaliBlog.Service.Sys;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace DayaliBlog.Web.Areas.Admin.Controllers
 {
@@ -88,13 +89,16 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(T_BLOG_CONTENT content)
         {
-            if (!ModelState.IsValid)
-                return Content("<script> alert(\'博客内容有误，请检查博客内容！\'); location.href=\'/Admin/Login\'</script>\", \"text/html");
+            //if (!ModelState.IsValid)
+            //    return Content("<script> alert(\'博客内容有误，请检查博客内容！\'); location.href=\'/Admin/Home\'</script>\", \"text/html");
             int blogId = 0;
+            int userId = HttpContext.Session.GetInt32("userid") == null
+                ? 1
+                : int.Parse(HttpContext.Session.GetInt32("userid").ToString());
             if (content.BlogID == 0)
             {
                 content.CreateTIme = DateTime.Now;
-                content.CreateUser = 1;
+                content.CreateUser = userId;
                 content.LastUptTime = DateTime.Now;
                 content.BlogState = 1;
                 blogId = _contentService.Insert(content);
@@ -102,7 +106,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
             else
             {
                 blogId = content.BlogID;
-                content.UpdateUser = 1;
+                content.UpdateUser = userId;
                 content.LastUptTime = DateTime.Now;
                 content.BlogState = 1;
                 bool isSuccess = _contentService.Update(content);

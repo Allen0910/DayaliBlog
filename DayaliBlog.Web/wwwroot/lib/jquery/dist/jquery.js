@@ -765,11 +765,11 @@ function Sizzle( selector, context, results, seed ) {
 
 					// Document context
 					if ( nodeType === 9 ) {
-						if ( (elem = context.getElementByBlogID( m )) ) {
+						if ( (elem = context.getElementById( m )) ) {
 
 							// Support: IE, Opera, Webkit
 							// TODO: identify versions
-							// getElementByBlogID can match elements by name instead of ID
+							// getElementById can match elements by name instead of ID
 							if ( elem.id === m ) {
 								results.push( elem );
 								return results;
@@ -783,8 +783,8 @@ function Sizzle( selector, context, results, seed ) {
 
 						// Support: IE, Opera, Webkit
 						// TODO: identify versions
-						// getElementByBlogID can match elements by name instead of ID
-						if ( newContext && (elem = newContext.getElementByBlogID( m )) &&
+						// getElementById can match elements by name instead of ID
+						if ( newContext && (elem = newContext.getElementById( m )) &&
 							contains( context, elem ) &&
 							elem.id === m ) {
 
@@ -1081,39 +1081,39 @@ setDocument = Sizzle.setDocument = function( node ) {
 	support.getElementsByClassName = rnative.test( document.getElementsByClassName );
 
 	// Support: IE<10
-	// Check if getElementByBlogID returns elements by name
-	// The broken getElementByBlogID methods don't pick up programatically-set names,
+	// Check if getElementById returns elements by name
+	// The broken getElementById methods don't pick up programatically-set names,
 	// so use a roundabout getElementsByName test
-	support.getByBlogID = assert(function( div ) {
+	support.getById = assert(function( div ) {
 		docElem.appendChild( div ).id = expando;
 		return !document.getElementsByName || !document.getElementsByName( expando ).length;
 	});
 
 	// ID find and filter
-	if ( support.getByBlogID ) {
+	if ( support.getById ) {
 		Expr.find["ID"] = function( id, context ) {
-			if ( typeof context.getElementByBlogID !== "undefined" && documentIsHTML ) {
-				var m = context.getElementByBlogID( id );
+			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+				var m = context.getElementById( id );
 				return m ? [ m ] : [];
 			}
 		};
 		Expr.filter["ID"] = function( id ) {
-			var attrBlogID = id.replace( runescape, funescape );
+			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
-				return elem.getAttribute("id") === attrBlogID;
+				return elem.getAttribute("id") === attrId;
 			};
 		};
 	} else {
 		// Support: IE6/7
-		// getElementByBlogID is not reliable as a find shortcut
+		// getElementById is not reliable as a find shortcut
 		delete Expr.find["ID"];
 
 		Expr.filter["ID"] =  function( id ) {
-			var attrBlogID = id.replace( runescape, funescape );
+			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
 				var node = typeof elem.getAttributeNode !== "undefined" &&
 					elem.getAttributeNode("id");
-				return node && node.value === attrBlogID;
+				return node && node.value === attrId;
 			};
 		};
 	}
@@ -2549,7 +2549,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 		// Reduce context if the leading compound selector is an ID
 		tokens = match[0] = match[0].slice( 0 );
 		if ( tokens.length > 2 && (token = tokens[0]).type === "ID" &&
-				support.getByBlogID && context.nodeType === 9 && documentIsHTML &&
+				support.getById && context.nodeType === 9 && documentIsHTML &&
 				Expr.relative[ tokens[1].type ] ) {
 
 			context = ( Expr.find["ID"]( token.matches[0].replace(runescape, funescape), context ) || [] )[0];
@@ -2883,7 +2883,7 @@ var rootjQuery,
 
 				// HANDLE: $(#id)
 				} else {
-					elem = document.getElementByBlogID( match[ 2 ] );
+					elem = document.getElementById( match[ 2 ] );
 
 					// Support: Blackberry 4.6
 					// gEBID returns nodes no longer in the document (#6963)
@@ -6461,7 +6461,7 @@ jQuery.fx.step = {};
 
 
 var
-	fxNow, timerBlogID,
+	fxNow, timerId,
 	rfxtypes = /^(?:toggle|show|hide)$/,
 	rrun = /queueHooks$/;
 
@@ -7048,15 +7048,15 @@ jQuery.fx.timer = function( timer ) {
 
 jQuery.fx.interval = 13;
 jQuery.fx.start = function() {
-	if ( !timerBlogID ) {
-		timerBlogID = window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
+	if ( !timerId ) {
+		timerId = window.setInterval( jQuery.fx.tick, jQuery.fx.interval );
 	}
 };
 
 jQuery.fx.stop = function() {
-	window.clearInterval( timerBlogID );
+	window.clearInterval( timerId );
 
-	timerBlogID = null;
+	timerId = null;
 };
 
 jQuery.fx.speeds = {

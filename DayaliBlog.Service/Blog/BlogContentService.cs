@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using Dapper;
 using DayaliBlog.Model.Blog;
+using DayaliBlog.Model.CustomModel;
 using DayaliBlog.Service.Sys;
 
 namespace DayaliBlog.Service.Blog
@@ -21,15 +22,15 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_CONTENT(");
-            strSql.Append("BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,Remark)");
+            strSql.Append("BlogTitle,BlogCover,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@Remark)");
+            strSql.Append("@BlogTitle,@BlogCover,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
-                int contentBlogID=conn.Query<int>(strSql.ToString(),model).First();
-                return contentBlogID;
+                var contentBlogId=conn.Query<int>(strSql.ToString(),model).First();
+                return contentBlogId;
             }
         }
 
@@ -37,10 +38,10 @@ namespace DayaliBlog.Service.Blog
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("insert into T_BLOG_CONTENT(");
-            strSql.Append("BlogTitle,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark)");
+            strSql.Append("BlogTitle,BlogCover,BlogContent,BlogType,BlogState,LastUptTime,CreateUser,CreateTIme,UpdateUser,UpdateTIme,Remark)");
 
             strSql.Append(" values (");
-            strSql.Append("@BlogTitle,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
+            strSql.Append("@BlogTitle,@BlogCover,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
             using (var conn = ConnentionFactory.GetOpenSqlConnection())
             {
@@ -59,6 +60,7 @@ namespace DayaliBlog.Service.Blog
             StringBuilder strSql = new StringBuilder();
             strSql.Append("update T_BLOG_CONTENT set ");
             strSql.Append("BlogTitle=@BlogTitle,");
+            strSql.Append("BlogCover=@BlogCover,");
             strSql.Append("BlogContent=@BlogContent,");
             strSql.Append("BlogType=@BlogType,");
             strSql.Append("BlogState=@BlogState,");
@@ -81,7 +83,7 @@ namespace DayaliBlog.Service.Blog
         /// <returns></returns>
         public List<T_BLOG_CONTENT> GetList(string where)
         {
-            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
+            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogCover,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
             strSql += " inner join T_BLOG_CATELOG_REL r on r.BlogID=b.BlogID ";
             strSql += " inner join T_BLOG_CATELOG g on g.CatelogID=r.CatelogID ";
             strSql += " inner join T_SYS_CONFIG c on c.ID=2 and c.SUB_ID=b.BlogType";
@@ -89,10 +91,20 @@ namespace DayaliBlog.Service.Blog
             {
                 strSql += " where " + where;
             }
-            strSql += " order by LastUptTime desc";
+            strSql += " order by b.BlogID desc";
             using (var conn=ConnentionFactory.GetOpenSqlConnection())
             {
                 var list = conn.Query<T_BLOG_CONTENT>(strSql).ToList();
+                return list;
+            }
+        }
+
+        public List<BlogCategCount> GetCategCount(int userId)
+        {
+            string strSql = "SELECT r.CatelogID AS CatelogID,c.CatelogName,COUNT(1) AS BlogCount\r\nFROM dbo.T_BLOG_CONTENT b\r\nINNER JOIN dbo.T_BLOG_CATELOG_REL r ON r.BlogID = b.BlogID\r\nINNER JOIN dbo.T_BLOG_CATELOG c ON c.CatelogID = r.CatelogID\r\nWHERE b.CreateUser=" + userId + "\r\nGROUP BY r.CatelogID,c.CatelogName ORDER BY BlogCount DESC,CatelogID ASC";
+            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            {
+                var list = conn.Query<BlogCategCount>(strSql).ToList();
                 return list;
             }
         }
@@ -107,7 +119,7 @@ namespace DayaliBlog.Service.Blog
             {
                 orderBy = " order by LastUptTime desc ";
             }
-            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
+            string strSql = "select b.BlogID,g.CatelogID,g.CatelogName,BlogTitle,BlogCover,BlogContent,BlogType,c.SUB_NM as BlogTypeName,BlogState,LastUptTime,b.CreateUser,b.CreateTIme,b.UpdateUser,b.UpdateTIme,b.Remark from T_BLOG_CONTENT b";
             strSql += " inner join T_BLOG_CATELOG_REL r on r.BlogID=b.BlogID ";
             strSql += " inner join T_BLOG_CATELOG g on g.CatelogID=r.CatelogID ";
             strSql += " inner join T_SYS_CONFIG c on c.ID=2 and c.SUB_ID=b.BlogType ";

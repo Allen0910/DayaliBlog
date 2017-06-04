@@ -9,6 +9,7 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogCategRelService
     {
+        public string ConnStr { get; set; }
         public int Insert(int BlogID, int categBlogID)
         {
             StringBuilder strSql = new StringBuilder();
@@ -17,7 +18,7 @@ namespace DayaliBlog.Service.Blog
 
             strSql.Append(" values (");
             strSql.Append("@BlogID,@CatelogID)");
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 return conn.Execute(strSql.ToString(), new { BlogID = BlogID, CatelogID = categBlogID });
             }
@@ -30,7 +31,7 @@ namespace DayaliBlog.Service.Blog
 
             strSql.Append(" values (");
             strSql.Append("@BlogID,@CatelogID)");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 return conn.Execute(strSql.ToString(), new {BlogID = BlogID, CatelogID = categBlogID}, transaction);
             }
@@ -39,7 +40,7 @@ namespace DayaliBlog.Service.Blog
         public bool Delete(int BlogID)
         {
             string strSql = "delete from T_BLOG_CATELOG_REL where BlogID=@BlogID";
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID = conn.Execute(strSql, new {BlogID = BlogID});
                 return resBlogID > 0;

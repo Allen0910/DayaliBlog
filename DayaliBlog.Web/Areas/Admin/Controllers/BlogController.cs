@@ -7,21 +7,24 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 
 namespace DayaliBlog.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
     public class BlogController : Controller
     {
-        readonly BlogCategService _categService = new BlogCategService();
-        readonly BlogContentService _contentService = new BlogContentService();
-        readonly BlogCategRelService _relCateg = new BlogCategRelService();
-
+        readonly BlogCategService _categService ;
+        readonly BlogContentService _contentService;
+        readonly BlogCategRelService _relCateg ;
         //用于读取网站静态文件目录
         private IHostingEnvironment hostingEnv;
-        public BlogController(IHostingEnvironment env)
+        public BlogController(IHostingEnvironment env, BlogCategService categ, BlogContentService content, BlogCategRelService rel)
         {
             hostingEnv = env;
+            _categService = categ;
+            _contentService = content;
+            _relCateg = rel;
         }
         public IActionResult GetTotalCount(string key, string start, string end, string categ)
         {
@@ -61,7 +64,12 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
 
         public IActionResult GetListByPage(int pageIndex, int pageSize, string key, string start, string end, string categ)
         {
+            if(HttpContext.Session.GetInt32("userid")==null || HttpContext.Session.GetInt32("userid") == 0)
+            {
+                return Content("<script>alert('Please Login This System！');location.href='/Admin/Login'</script>","text/html");
+            }
             var contion = GetWhere(key, start, end, categ);
+            contion += " and b.CreateUser="+HttpContext.Session.GetInt32("userid");
             var list = _contentService.GetListByPage("", pageSize, pageIndex, contion);
             return Json(list);
         }
@@ -90,7 +98,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         public IActionResult Add(T_BLOG_CONTENT content)
         {
             //if (!ModelState.IsValid)
-            //    return Content("<script> alert(\'博客内容有误，请检查博客内容！\'); location.href=\'/Admin/Home\'</script>\", \"text/html");
+            //    return Content("<script> alert('博客内容有误，请检查博客内容！'); location.href='/Admin/Blog/Add'</script>", "text/html");
             int blogId = 0;
             int userId = HttpContext.Session.GetInt32("userid") == null
                 ? 1

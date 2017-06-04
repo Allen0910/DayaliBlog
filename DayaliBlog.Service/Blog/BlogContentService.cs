@@ -8,11 +8,13 @@ using Dapper;
 using DayaliBlog.Model.Blog;
 using DayaliBlog.Model.CustomModel;
 using DayaliBlog.Service.Sys;
+using Microsoft.Extensions.Options;
 
 namespace DayaliBlog.Service.Blog
 {
     public class BlogContentService
     {
+        public string ConnStr { get; set; }
         /// <summary>
         /// 添加博客
         /// </summary>
@@ -27,7 +29,8 @@ namespace DayaliBlog.Service.Blog
             strSql.Append(" values (");
             strSql.Append("@BlogTitle,@BlogCover,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var contentBlogId=conn.Query<int>(strSql.ToString(),model).First();
                 return contentBlogId;
@@ -43,7 +46,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append(" values (");
             strSql.Append("@BlogTitle,@BlogCover,@BlogContent,@BlogType,@BlogState,@LastUptTime,@CreateUser,@CreateTIme,@UpdateUser,@UpdateTIme,@Remark)");
             strSql.Append("; SELECT @@IDENTITY ;");
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int contentBlogID = conn.Query<int>(strSql.ToString(), model, transaction).First();
                 return contentBlogID;
@@ -69,7 +72,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append("UpdateTIme=@UpdateTIme,");
             strSql.Append("Remark=@Remark");
             strSql.Append(" where BlogID=@BlogID");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID = conn.Execute(strSql.ToString(), model);
                 return resBlogID > 0;
@@ -91,8 +94,8 @@ namespace DayaliBlog.Service.Blog
             {
                 strSql += " where " + where;
             }
-            strSql += " order by b.BlogID desc";
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            strSql += " order by b.CreateTIme desc";
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var list = conn.Query<T_BLOG_CONTENT>(strSql).ToList();
                 return list;
@@ -102,7 +105,7 @@ namespace DayaliBlog.Service.Blog
         public List<BlogCategCount> GetCategCount(int userId)
         {
             string strSql = "SELECT r.CatelogID AS CatelogID,c.CatelogName,COUNT(1) AS BlogCount\r\nFROM dbo.T_BLOG_CONTENT b\r\nINNER JOIN dbo.T_BLOG_CATELOG_REL r ON r.BlogID = b.BlogID\r\nINNER JOIN dbo.T_BLOG_CATELOG c ON c.CatelogID = r.CatelogID\r\nWHERE b.CreateUser=" + userId + "\r\nGROUP BY r.CatelogID,c.CatelogName ORDER BY BlogCount DESC,CatelogID ASC";
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var list = conn.Query<BlogCategCount>(strSql).ToList();
                 return list;
@@ -124,7 +127,8 @@ namespace DayaliBlog.Service.Blog
             strSql += " inner join T_BLOG_CATELOG g on g.CatelogID=r.CatelogID ";
             strSql += " inner join T_SYS_CONFIG c on c.ID=2 and c.SUB_ID=b.BlogType ";
             string strFormat = string.Format(strSql + "{0} "+orderBy+" offset {1} rows  fetch next {2} rows only ",where,(pageIndex-1)*pageSize,pageSize);
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var list = conn.Query<T_BLOG_CONTENT>(strFormat).ToList();
                 return list;
@@ -139,7 +143,7 @@ namespace DayaliBlog.Service.Blog
             {
                 strSql += $" WHERE {where}";
             }
-            using (var connection = ConnentionFactory.GetOpenSqlConnection())
+            using (var connection = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int res = connection.ExecuteScalar<int>(strSql);
                 return res;
@@ -160,7 +164,7 @@ namespace DayaliBlog.Service.Blog
         public bool Delete(int id)
         {
             string strSql = "delete from T_BLOG_CONTENT where BlogID=@id";
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID = conn.Execute(strSql, new {id});
                 return resBlogID > 0;

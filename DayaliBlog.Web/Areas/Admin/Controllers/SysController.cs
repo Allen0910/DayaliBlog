@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,6 +12,12 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class SysController : Controller
     {
+        SysUserService _userService;
+
+        public SysController(SysUserService user)
+        {
+            _userService = user;
+        }
         public IActionResult Index()
         {
             return View();
@@ -22,34 +28,33 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         {
             if (HttpContext.Session.GetInt32("userid") == null)
             {
-                return MsgContent("Î´ÕÒµ½¸ÃÓÃ»§£¬ÇëÁªÏµ¹ÜÀíÔ±!");
+                return MsgContent("æœªæ‰¾åˆ°è¯¥ç”¨æˆ·ï¼Œè¯·è”ç³»ç®¡ç†å‘˜!");
             }
             if (string.IsNullOrEmpty(oldpassword) || string.IsNullOrEmpty(newpwd1) || string.IsNullOrEmpty(newpwd2))
             {
-                return MsgContent("Çë°ÑĞŞ¸ÄÃÜÂëĞÅÏ¢ÌîĞ´ÍêÕû!");
+                return MsgContent("è¯·æŠŠä¿®æ”¹å¯†ç ä¿¡æ¯å¡«å†™å®Œæ•´!");
             }
 
             if (newpwd1 != newpwd2)
             {
-                return MsgContent("¶ş´ÎÃÜÂëÊäÈë²»ÏàÍ¬£¡");
+                return MsgContent("äºŒæ¬¡å¯†ç è¾“å…¥ä¸ç›¸åŒï¼");
             }
 
-            SysUserService userService=new SysUserService();
             oldpassword = Helper.MD5Hash(oldpassword);
             int userid= int.Parse(HttpContext.Session.GetInt32("userid").ToString());
             string username = HttpContext.Session.GetString("username");
-            var list = userService.GetList(username, oldpassword);
+            var list = _userService.GetList(username, oldpassword);
             if (list == null || list.Count <= 0)
-                return MsgContent("Ô­ÃÜÂë´íÎó£¡");
-            bool isSuccess = userService.Update(new T_SYS_USER() {UserID = userid, Password = Helper.MD5Hash(newpwd1)});
+                return MsgContent("åŸå¯†ç é”™è¯¯ï¼");
+            bool isSuccess = _userService.Update(new T_SYS_USER() {UserID = userid, Password = Helper.MD5Hash(newpwd1)});
             if(isSuccess)
-            return Content("<script>alert('ĞŞ¸ÄÃÜÂë³É¹¦£¡');parent.location.href='/Admin/Login'</script>", "text/html");
-            return MsgContent("ÃÜÂëĞŞ¸ÄÊ§°Ü£¡");
+            return Content("<script>alert('ä¿®æ”¹å¯†ç æˆåŠŸï¼');parent.location.href='/Admin/Login'</script>", "text/html");
+            return MsgContent("å¯†ç ä¿®æ”¹å¤±è´¥ï¼");
         }
 
         private IActionResult MsgContent(string message)
         {
-            return Content("<script> alert(\'"+ message + "\');</script>\", \"text/html");
+            return Content("<script> alert("+ message + ");</script>" ,"text/html");
         }
     }
 }

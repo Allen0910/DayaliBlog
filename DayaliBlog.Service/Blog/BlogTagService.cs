@@ -12,6 +12,7 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogTagService
     {
+        public string ConnStr { get; set; }
         /// <summary>
         /// 插入标签
         /// </summary>
@@ -26,7 +27,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append(" values (");
             strSql.Append("@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
             strSql.Append(" ;SELECT @@IDENTITY;");
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int tagBlogID=conn.Query<int>(strSql.ToString(), model).First();
                 return tagBlogID;
@@ -42,7 +43,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append(" values (");
             strSql.Append("@TagName,@CreateUser,@CreateTime,@UpdateUser,@UpdateTime,@Remark)");
             strSql.Append(" ;SELECT @@IDENTITY;");
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int tagBlogID = conn.Query<int>(strSql.ToString(), model, transaction).First();
                 return tagBlogID;
@@ -65,7 +66,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append("UpdateTime=@UpdateTime,");
             strSql.Append("Remark=@Remark");
             strSql.Append(" where TagID=@TagID");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID=conn.Execute(strSql.ToString(), model);
                 return resBlogID > 0;
@@ -86,7 +87,7 @@ namespace DayaliBlog.Service.Blog
             {
                 strSql.Append(" where " + where);
             }
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                var list= conn.Query<T_BLOG_TAG>(strSql.ToString()).ToList();
                 return list;
@@ -101,7 +102,7 @@ namespace DayaliBlog.Service.Blog
         public bool Delete(int id)
         {
             string strSql = "delete from T_BLOG_TAG where TagID=@id";
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID=conn.Execute(strSql, new {id = id});
                 return resBlogID > 0;

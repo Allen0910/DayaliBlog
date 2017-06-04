@@ -33,12 +33,20 @@ namespace DayaliBlog.Web
             // Add framework services.
             services.AddMvc();
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton(new Service.Blog.BlogContentService() { ConnStr = connStr });
+            services.AddSingleton(new Service.Blog.BlogCategService() { ConnStr = connStr });
+            services.AddSingleton(new Service.Blog.BlogCategRelService() { ConnStr = connStr });
+            services.AddSingleton(new Service.Blog.BlogTagService() { ConnStr = connStr });
+            services.AddSingleton(new Service.Blog.BlogTagRelService(){ ConnStr = connStr });
+            services.AddSingleton(new Service.Sys.SysUserService(){ ConnStr = connStr });
+            services.AddSingleton(Service.Sys.SysConfig.ConnStr = connStr);
             //添加gb2312的支持
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

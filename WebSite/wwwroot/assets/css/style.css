@@ -1,0 +1,67 @@
+﻿
+/* =============================================================
+   GENERAL STYLES
+ ============================================================ */
+
+html, body {
+    padding-top:0px;
+    margin:0px;
+}
+body {
+    font-family: 'Open Sans', sans-serif;
+    line-height:25px;
+    font-size:14px;
+}
+
+
+.header-section {
+  background-color:#065883;
+  color:#fff;
+  padding:40px 5px;
+}
+    .header-section img {
+        max-width:150px;
+        border:2px solid #fff;
+    }
+
+.spon-txt {
+    padding:40px 5px;
+    font-size:25px;
+    font-weight:800;
+}
+
+.blog-main {
+    padding:5px 5px;
+    border-bottom:2px solid #065883;
+    margin-bottom:20px;
+}
+.heading-blog {
+    font-size: 20px;
+    color: #065883;
+    font-weight: 600;
+    padding: 15px 5px 15px 15px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    line-height: 10px;
+}
+.blog-info {
+    padding:20px 5px; 
+    font-size:20px;
+    font-weight:normal;
+}
+.blog-txt {
+    padding:20px 5px; 
+    font-family:Andalus ;
+    font-size:15px;    
+    font-weight:normal;
+}
+.set-foot {
+    padding:20px 5px;
+}
+.copyrights{
+	text-indent:-9999px;
+	height:0;
+	line-height:0;
+	font-size:0;
+	overflow:hidden;
+}

@@ -1,0 +1,23 @@
+﻿@model DayaliBlog.Model.Blog.T_BLOG_CATELOG
+<blockquote class="layui-elem-quote">添加分类</blockquote>
+<form class="layui-form" method="post" action="">
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(a=>a.CatelogName,new { placeholder = "请输入分类名称", @class="layui-input",name= "CatelogName" })
+        </div>
+    </div>
+    <input type="hidden" value="@Model.CatelogID" name="CatelogID"/>
+    <div class="layui-form-item">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            @Html.TextBoxFor(a=>a.Remark,new{ placeholder = "请输入备注", @class = "layui-input", name = "Remark" })
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <input class="layui-btn" style="max-width: 100px" lay-submit lay-filter="formDemo" type="submit" value="提交"/>
+        </div>
+    </div>
+</form>
+

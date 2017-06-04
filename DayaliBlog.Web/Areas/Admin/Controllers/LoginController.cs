@@ -11,23 +11,33 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class LoginController : Controller
     {
+        SysUserService _userService;
+        public LoginController(SysUserService user)
+        {
+            _userService = user;
+        }
         public IActionResult Index()
         {
+            HttpContext.Session.SetInt32("userid",0);
+            HttpContext.Session.SetString("username","");
             return View();
         }
         [HttpPost]
-        public IActionResult Index(string username,string password)
+        public IActionResult UserLogin(string username,string password)
         {
-            SysUserService userService=new SysUserService();
+            if(string.IsNullOrEmpty(username)||string.IsNullOrEmpty(password))
+            {
+                return Content("empty");
+            }
             password = Helper.MD5Hash(password);
-            var listUsers=userService.GetList(username, password);
+            var listUsers= _userService.GetList(username, password);
             if (listUsers.Count > 0)
             {
                 HttpContext.Session.SetInt32("userid", listUsers[0].UserID);
                 HttpContext.Session.SetString("username", username);
                 return Redirect("/Admin/Home");
             }
-            return Content("<script> alert('Login Error ! Username or Password Is Error !'); location.href='/Admin/Login'</script>", "text/html");
+            return Content("error");
         }
     }
 }

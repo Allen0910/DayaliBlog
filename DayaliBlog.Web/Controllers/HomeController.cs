@@ -11,7 +11,11 @@ namespace DayaliBlog.Web.Controllers
 {
     public class HomeController : Controller
     {
-        readonly BlogContentService _contentService = new BlogContentService();
+        readonly BlogContentService _contentService;
+        public HomeController(BlogContentService bcs)
+        {
+            _contentService = bcs;
+        }
         public IActionResult Index()
         {
             return View();
@@ -36,11 +40,9 @@ namespace DayaliBlog.Web.Controllers
             int userid = HttpContext.Session.GetInt32("userid") == null
                 ? 1
                 : int.Parse(HttpContext.Session.GetInt32("userid").ToString());
-            var list = _contentService.GetCategCount(userid);
+            var list = _contentService.GetCategCount(1);
             return Json(list);
         }
-
-
 
         public IActionResult Error()
         {

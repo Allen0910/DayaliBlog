@@ -1,68 +1,128 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - DayaliBlog.Web</title>
-
-    <environment names="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-    </environment>
-    <environment names="Staging,Production">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <!--[if IE]>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <![endif]-->
+    <title>大鸭梨Blog</title>
+    <!-- BOOTSTRAP CORE STYLE CSS -->
+    <link href="/lib/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <!-- FONTAWESOME STYLE CSS -->
+    <link href="/assets/css/font-awesome.css" rel="stylesheet" />
+    <!-- CUSTOM STYLE CSS -->
+    <link href="/assets/css/style.css" rel="stylesheet" />
+    <script type="text/javascript" src="/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="~/lib/angular-sanitize/angular-sanitize.js"></script>
+    <script type="text/javascript" src="~/lib/angular-filter/dist/angular-filter.js"></script>
+    <script src="~/js/app.js"></script>
+    <style type="text/css">
+        .hover {
+            cursor: pointer;
+        }
+    </style>
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body ng-app="myApp">
+    <section class="header-section">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">DayaliBlog.Web</a>
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="/Home"><img src="/assets/img/avator.jpg" class="img-circle img-responsive" /></a>
+                </div>
+                <div class="col-md-5 text-center">
+                    <h1><strong>Allen Cui </strong></h1>
+                    <h4>Blogger & .Net Developer</h4>
+                </div>
+                <div class="col-md-5">
+                    <h3>WHO AM I :</h3>
+
+                    I am a 25 years old guy who loves bloggging and developing .
+                    I will provide all my works for free here with some good piece of information.
+                    You can reach me at <i><strong>allencui0912@gmail.com</strong></i>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                </ul>
-                @await Html.PartialAsync("_LoginPartial")
+        </div>
+    </section>
+    <!--HOME SECTION END-->
+
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2 spon-txt">
+                    <span>My Sponsers: </span>
+                </div>
+                <div class="col-md-10">
+                    <img src="/assets/img/clients.png" alt="" class="img-rounded img-responsive" />
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+    <!--SPONSORS SECTION END-->
+    <hr />
+    <section>
+        <div class="container">
+            <div class="row">
+                @RenderBody()
+                <div class="col-md-3">
+
+                    <ul class="list-group" ng-controller="firstController">
+                        <li class="list-group-item">
+                            <strong>Main Categories</strong>
+                        </li>
+                        <li class="list-group-item" ng-repeat="p in categs">
+                            <span class="badge">{{p.blogCount}}</span>
+                            {{p.catelogName}}
+                        </li>
+                    </ul>
+                    <br />
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            Advrtisements
+                        </li>
+                        <li class="list-group-item">
+                            <a href="#">
+                                <img src="/assets/img/ad1.jpg" class="img-responsive" />
+                            </a>
+                            <br />
+                            <a href="#">
+                                <img src="/assets/img/ad2.jpg" class="img-responsive" />
+                            </a>
+                        </li>
+                    </ul>
+                    <br />
+                    <div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Subscribe For Updates</h3>
+                            </div>
+                            <div class="panel-body">
+                                <input type="text" class="form-control" placeholder="Your Email" />
+                                <hr />
+                                <a href="#" class="btn btn-info btn-sm btn-block">subscribe</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <hr />
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center set-foot">
+                Copyright © 2017 | <a href="http://www.dayali.net/Home" target="_blank" title="大鸭梨Blog">大鸭梨Blog</a>&nbsp;<a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备17015678号</a>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; 2016 - DayaliBlog.Web</p>
-        </footer>
-    </div>
-
-    <environment names="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment names="Staging,Production">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery">
-        </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal">
-        </script>
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-
-    @RenderSection("scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
+
 </html>

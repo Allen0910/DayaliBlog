@@ -1,0 +1,187 @@
+﻿@model List<DayaliBlog.Model.Blog.T_BLOG_CONTENT>
+<blockquote class="layui-elem-quote">文章管理</blockquote>
+<div style="padding: 10px">
+    <div class="layui-form">
+        <a class="layui-btn" href="/Admin/Blog/Add">
+            <i class="layui-icon">&#xe608;</i> 添加
+        </a>
+        <div class="layui-input-inline">
+            <input id="search_key" type="text" name="title" lay-verify="title" autocomplete="off" placeholder="标题关键字" class="layui-input">
+        </div>
+        <div class="layui-input-inline">
+            发布时间：
+        </div>
+        <div class="layui-input-inline">
+            <input class="layui-input" placeholder="开始日期" id="search_start">
+        </div>
+        <div class="layui-input-inline">
+            ~
+        </div>
+        <div class="layui-input-inline">
+            <input class="layui-input" placeholder="截止日期" id="search_end">
+        </div>
+        <div class="layui-input-inline">
+            <select id="search_categ">
+                <option value="">--所有分类--</option>
+                @foreach (DayaliBlog.Model.Blog.T_BLOG_CATELOG categ in ViewBag.CategList)
+                {
+                    <option value="@categ.CatelogID">@categ.CatelogName</option>
+                }
+            </select>
+        </div>
+        <div class="layui-input-inline">
+            <button class="layui-btn layui-btn-normal" type="button" onclick="search()"><i class="layui-icon">&#xe615;</i> 查询</button>
+        </div>
+    </div>
+    <table class="layui-table">
+        <thead>
+        <tr style="height: 20px">
+            <th style="width: 100px">博客标题</th>
+            <th style="width: 100px">博客内容</th>
+            <th style="width: 100px">博客类型</th>
+            <th style="width: 100px">所属分类</th>
+            <th style="width: 100px">发布时间</th>
+            <th style="width: 100px">管理</th>
+        </tr>
+        </thead>
+        <tbody id="content"/>
+        
+    </table>
+    <div style="float: left; line-height: 55px;margin: 0 15px; font-size: 16px;">
+        当前共<span id="totalcount"></span>篇文章，第<span id="pageindex"></span>页/共<span id="pagecount"></span>页
+    </div>
+    <div id="layPages">
+        
+    </div>
+
+</div>
+<script type="text/javascript">
+    layui.use('laydate',
+        function () {
+            var laydate = layui.laydate;
+            document.getElementById('search_start').onclick = function () {
+                laydate({ elem: this });
+            }
+            document.getElementById('search_end').onclick = function () {
+                laydate({ elem: this });
+            }
+        });
+
+    function GetCondition() {
+        var key = document.getElementById("search_key").value;
+        var start = document.getElementById("search_start").value;
+        var end = document.getElementById("search_end").value;
+        var categ = document.getElementById("search_categ").value;
+        var contion = { key: key, start: start, end: end, categ: categ };
+        return contion;
+    }
+
+    //定义每页的大小
+    var pageSize = 3;
+    layui.use(['laypage', 'layer'],
+        function() {
+            var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+
+            var url = "/Admin/Blog/GetTotalCount/t" + new Date().valueOf();
+            $.post(url,
+                function (count) {
+                    var pagecount = (count % pageSize === 0 ? count / pageSize : Math.ceil(count / pageSize)); //总页数
+                    $("#pagecount").text(pagecount);
+                    $("#totalcount").text(count);
+
+                    laypage({
+                        cont: 'layPages',
+                        pages: pagecount, //总页数
+                        jump:function(obj) {
+                            var pageIndex = obj.curr;
+                            loadData(pageIndex);
+                        }
+                    });
+                });
+
+
+
+        });
+
+    function loadData(pageIndex) {
+        layui.use('layer',
+            function() {
+                var $ = layui.jquery, layer = layui.layer;
+                $('#pageindex').text(pageIndex);
+                var contion = GetCondition();
+                var url = "/Admin/Blog/GetListByPage?pageIndex=" + pageIndex + "&pageSize=" + pageSize;
+                var html = '';
+                $.post(url, contion, function (data) {
+                        $.each(data, function (i, b) {
+                            html += "<tr  style='max-height:10px'>" +
+                                "<td>" +
+                                b.blogTitle +
+                                "</td>" +
+                                "<td>" +
+                                b.blogContent +
+                                "</td>" +
+                                "<td>" +
+                                b.blogTypeName +
+                                "</td>" +
+                                "<td>" +
+                                b.catelogName +
+                                "</td>" +
+                                "<td>" +
+                                b.lastUptTime +
+                                "</td>" +
+                                "<td>"; 
+                            html += '<a href="/Admin/Blog/Add/' + b.blogID + '"><i class="layui-icon">&#xe642;</i> 编辑</a>';
+
+                            html += "<a href='javascript:del(" + b.blogID+")'><i class='layui-icon'>&#x1006;</i>删除</a>" +
+                        "</td>" +
+                        "</tr>";
+                    });
+                    $("#content").html(html);
+                },'json');
+            });
+        
+    }
+    function search() {
+        layui.use(['laypage', 'layer'],
+            function () {
+                var laypage = layui.laypage, layer = layui.layer, $ = layui.jquery;
+                var url = "/Admin/Blog/GetTotalCount?t=" + new Date().valueOf();
+                var condition = GetCondition();
+                $.post(url, condition,
+                    function (count) {
+                        var pagecount = (count % pageSize === 0 ? count / pageSize : Math.ceil(count / pageSize)); //总页数
+                        $("#pagecount").text(pagecount);
+                        $("#totalcount").text(count);
+
+                        laypage({
+                            cont: 'layPages',
+                            pages: pagecount, //总页数
+                            jump: function (obj) {
+                                var pageIndex = obj.curr;
+                                loadData(pageIndex);
+                            }
+                        });
+                    });
+            });
+    }
+    
+    function del(blogId) {
+        var url = '/Admin/Blog/Del/' + blogId;
+        layui.use('layer',
+            function() {
+                var layer = layui.layer;
+                var $ = layui.jquery;
+                layer.confirm('是否确认删除？',
+                    function() {
+                        $.post(url,
+                            function(data) {
+                                layer.alert(data,
+                                    function() {
+                                         location.reload();
+                                    });
+                            });
+                    });
+            });
+    }
+</script>
+

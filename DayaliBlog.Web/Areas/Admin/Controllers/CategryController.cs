@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,11 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategryController : Controller
     {
-        BlogCategService _categ=new BlogCategService();
+        BlogCategService _categ;
+        public CategryController(BlogCategService categ)
+        {
+            _categ = categ;
+        }
         public IActionResult Index()
         {
             var list = _categ.GetList("");

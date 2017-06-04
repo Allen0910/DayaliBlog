@@ -12,13 +12,14 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogCategService
     {
+        public string ConnStr { get; set; }
         /// <summary>
         /// 插入博客类别
         /// </summary>
         /// <returns>插入的博客类别ID</returns>
         public int Insert(T_BLOG_CATELOG categry)
         {
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser) VALUES (@CatelogName,@CreateUser);" +
                     " SELECT  @@IDENTITY",categry).First();
@@ -28,7 +29,7 @@ namespace DayaliBlog.Service.Blog
 
         public int Insert(T_BLOG_CATELOG categry,IDbTransaction transaction)
         {
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser,UpdateUser) VALUES (@CatelogName,@CreateUser,@UpdateUser);" +
                     " SELECT  @@IDENTITY", categry, transaction).First();
@@ -51,7 +52,7 @@ namespace DayaliBlog.Service.Blog
             strSql.Append("UpdateTime=@UpdateTime,");
             strSql.Append("Remark=@Remark");
             strSql.Append(" WHERE CatelogID=@CatelogID");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID=conn.Execute(strSql.ToString(), categry);
                 return resBlogID > 0;
@@ -65,7 +66,7 @@ namespace DayaliBlog.Service.Blog
         /// <returns></returns>
         public List<T_BLOG_CATELOG> GetList(string where)
         {
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 string strSql =
                     "select CatelogID,ParentCategID,CatelogName,CreateUser,CreateTime,UpdateUser,UpdateTime,Remark from T_BLOG_CATELOG ";
@@ -86,7 +87,7 @@ namespace DayaliBlog.Service.Blog
         /// <returns></returns>
         public bool Delete(int categBlogID)
         {
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resBlogID = conn.Execute("delete from dbo.T_BLOG_CATELOG where CatelogID=@id", new{id = categBlogID});
                 if (resBlogID > 0)

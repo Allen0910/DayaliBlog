@@ -35,7 +35,7 @@
     </div>
     <table class="layui-table">
         <thead>
-        <tr style="height: 20px">
+        <tr>
             <th style="width: 100px">博客标题</th>
             <th style="width: 100px">博客内容</th>
             <th style="width: 100px">博客类型</th>
@@ -113,7 +113,7 @@
                 var html = '';
                 $.post(url, contion, function (data) {
                         $.each(data, function (i, b) {
-                            html += "<tr  style='max-height:10px'>" +
+                            html += "<tr>" +
                                 "<td>" +
                                 b.blogTitle +
                                 "</td>" +

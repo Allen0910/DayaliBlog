@@ -9,6 +9,7 @@ namespace DayaliBlog.Service.Sys
 {
     public class SysUserService
     {
+        public string ConnStr { get; set; }
         /// <summary>
         /// 根据用户名和密码获取用户信息
         /// </summary>
@@ -21,7 +22,7 @@ namespace DayaliBlog.Service.Sys
             strSql.Append("select UserID,UserName,Password,PersonalID,QQOpenid,CreateUser,CreateTime,UpdateUser,UpdateTime ");
             strSql.Append(" FROM T_SYS_USER ");
             strSql.Append(" where UserName=@userName and Password=@passWord");
-            using (var conn=ConnentionFactory.GetOpenSqlConnection())
+            using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var list= conn.Query<T_SYS_USER>(strSql.ToString(), new {UserName = userName, PassWord = passWord}).ToList();
                 return list;
@@ -39,7 +40,7 @@ namespace DayaliBlog.Service.Sys
             strSql.Append("update T_SYS_USER set ");
             strSql.Append("Password=@Password");
             strSql.Append(" where UserID=@UserID");
-            using (var conn = ConnentionFactory.GetOpenSqlConnection())
+            using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 int resUserId = conn.Execute(strSql.ToString(), model);
                 return resUserId > 0;

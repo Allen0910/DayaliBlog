@@ -1,0 +1,36 @@
+﻿<script src="~/js/app.js"></script>
+<div class="col-md-9" ng-controller="secondController">
+    <div class="blog-main"  ng-repeat="b in blogs">
+        <div class="heading-blog" style="cursor: pointer">
+            <a href="/Home/Detail/{{b.blogID}}">{{b.blogTitle}}</a> 
+        </div>
+        <a href="/Home/Detail/{{b.blogID}}">
+            <img src="{{b.blogCover}}" class="img-responsive img-rounded" />
+        </a>
+        <div class="blog-info">
+            <span class="label label-primary">Posted on {{b.createTIme|date:"yyyy-MM-dd HH:mm:ss"}}</span>
+            <span class="label label-success">In .Net Core</span>
+            <span class="label label-danger ">By Allen</span>
+            <span class="label label-info hover">
+                <i class="fa fa-thumbs-up"></i>10
+            </span>&nbsp;
+            <span class="label label-info hover">
+                <i class="fa fa-thumbs-down"></i>0
+            </span>
+        </div>
+        <div class="blog-txt" ng-bind-html="b.blogContent|limitTo:650"></div>
+    </div>
+
+    <nav>
+        <ul class="pagination">
+            <li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+            <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+            <li><a href="#">2 <span class="sr-only"></span></a></li>
+            <li><a href="#">3 <span class="sr-only"></span></a></li>
+            <li><a href="#">4 <span class="sr-only"></span></a></li>
+            <li><a href="#">5 <span class="sr-only"></span></a></li>
+            <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+        </ul>
+    </nav>
+<!--PAGING END -->
+</div>

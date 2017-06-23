@@ -171,6 +171,16 @@
     <Content Include="wwwroot\assets\img\person.jpg" />
     <Content Include="wwwroot\assets\img\user.gif" />
     <Content Include="wwwroot\assets\img\user2.png" />
+    <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\fonts\jennasue-webfont.woff" />
+    <Content Include="wwwroot\images\bg.jpg" />
+    <Content Include="wwwroot\images\buy-it-now.png" />
+    <Content Include="wwwroot\images\deviantart.png" />
+    <Content Include="wwwroot\images\dribbble.png" />
+    <Content Include="wwwroot\images\facebook.png" />
+    <Content Include="wwwroot\images\flickr.png" />
+    <Content Include="wwwroot\images\forrst.png" />
+    <Content Include="wwwroot\images\home.png" />
     <Content Include="wwwroot\images\lib\angular-route\.bower.json" />
     <Content Include="wwwroot\images\lib\angular-route\angular-route.js" />
     <Content Include="wwwroot\images\lib\angular-route\angular-route.min.js" />
@@ -336,6 +346,9 @@
     <Content Include="wwwroot\images\lib\jquery\dist\jquery.min.js" />
     <Content Include="wwwroot\images\lib\jquery\dist\jquery.min.map" />
     <Content Include="wwwroot\images\lib\jquery\LICENSE.txt" />
+    <Content Include="wwwroot\images\objects.png" />
+    <Content Include="wwwroot\images\skype.png" />
+    <Content Include="wwwroot\images\twitter.png" />
     <Content Include="wwwroot\images\WelCome.jpg" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\layui\css\layui.css" />
@@ -572,6 +585,7 @@
     <Content Include="wwwroot\lib\bootstrap\package.js" />
     <Content Include="wwwroot\lib\bootstrap\package.json" />
     <Content Include="wwwroot\lib\bootstrap\README.md" />
+    <Content Include="\nlog.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -586,6 +600,7 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="4.3.0" />
+    <PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-alpha4" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />

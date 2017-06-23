@@ -6,15 +6,20 @@ using DayaliBlog.Service.Blog;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.Runtime.TagHelpers;
+using Microsoft.Extensions.Options;
+using DayaliBlog.Model.CustomModel;
+using Microsoft.Extensions.Logging;
 
 namespace DayaliBlog.Web.Controllers
 {
     public class HomeController : Controller
     {
         readonly BlogContentService _contentService;
-        public HomeController(BlogContentService bcs)
+        readonly ILogger<HomeController> _logger;
+        public HomeController(IOptions<MyOptions> options,ILogger<HomeController> logger)
         {
-            _contentService = bcs;
+            _contentService = new BlogContentService(options.Value.DefaultConnection);
+            _logger = logger;
         }
         public IActionResult Index()
         {
@@ -25,6 +30,7 @@ namespace DayaliBlog.Web.Controllers
         public IActionResult GetList()
         {
             var list = _contentService.GetList("");
+            _logger.LogInformation("返回博客列表");
             return Json(list);
         }
 

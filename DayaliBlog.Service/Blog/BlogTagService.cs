@@ -12,7 +12,11 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogTagService
     {
-        public string ConnStr { get; set; }
+        public string ConnStr;
+        public BlogTagService(string conn)
+        {
+            ConnStr = conn;
+        }
         /// <summary>
         /// 插入标签
         /// </summary>

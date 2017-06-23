@@ -6,6 +6,8 @@ using DayaliBlog.Model.Sys;
 using DayaliBlog.Service.Sys;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using DayaliBlog.Model.CustomModel;
 
 namespace DayaliBlog.Web.Areas.Admin.Controllers
 {
@@ -14,9 +16,9 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
     {
         SysUserService _userService;
 
-        public SysController(SysUserService user)
+        public SysController(IOptions<MyOptions> option)
         {
-            _userService = user;
+            _userService = new SysUserService(option.Value.DefaultConnection);
         }
         public IActionResult Index()
         {

@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using DayaliBlog.Model.CustomModel;
+using NLog.Extensions.Logging;
 
 namespace DayaliBlog.Web
 {
@@ -28,18 +30,26 @@ namespace DayaliBlog.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //取出appsetting.json中的数据库连接字符串
-            string connStr = Configuration.GetSection("ConnStr").Value;
+            services.AddOptions();
+
+            //配置数据库连接串
+            services.Configure<MyOptions>(Configuration.GetSection("ConnectionStrings"));
             // Add framework services.
             services.AddMvc();
-            services.AddSingleton<IConfiguration>(Configuration);
-            services.AddSingleton(new Service.Blog.BlogContentService() { ConnStr = connStr });
-            services.AddSingleton(new Service.Blog.BlogCategService() { ConnStr = connStr });
-            services.AddSingleton(new Service.Blog.BlogCategRelService() { ConnStr = connStr });
-            services.AddSingleton(new Service.Blog.BlogTagService() { ConnStr = connStr });
-            services.AddSingleton(new Service.Blog.BlogTagRelService(){ ConnStr = connStr });
-            services.AddSingleton(new Service.Sys.SysUserService(){ ConnStr = connStr });
-            services.AddSingleton(Service.Sys.SysConfig.ConnStr = connStr);
+
+            #region 弃用，改用IOption
+            //取出appsetting.json中的数据库连接字符串
+            //string connStr = Configuration.GetSection("ConnStr").Value;
+            //services.AddSingleton<IConfiguration>(Configuration);
+            //services.AddSingleton(new Service.Blog.BlogContentService() { ConnStr = connStr });
+            //services.AddSingleton(new Service.Blog.BlogCategService() { ConnStr = connStr });
+            //services.AddSingleton(new Service.Blog.BlogCategRelService() { ConnStr = connStr });
+            //services.AddSingleton(new Service.Blog.BlogTagService() { ConnStr = connStr });
+            //services.AddSingleton(new Service.Blog.BlogTagRelService(){ ConnStr = connStr });
+            //services.AddSingleton(new Service.Sys.SysUserService(){ ConnStr = connStr });
+            //services.AddSingleton(Service.Sys.SysConfig.ConnStr = connStr);
+            #endregion
+
             //添加gb2312的支持
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             services.AddSession(options =>
@@ -54,6 +64,7 @@ namespace DayaliBlog.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddNLog();
 
             if (env.IsDevelopment())
             {
@@ -74,7 +85,7 @@ namespace DayaliBlog.Web
             {
                 routes.MapRoute(
                     name: "areaRoute",
-                    template:"{area:exists}/{controller}/{action=Index}/{id?}");
+                    template: "{area:exists}/{controller}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",

@@ -12,7 +12,12 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogCategService
     {
-        public string ConnStr { get; set; }
+        public string ConnStr;
+
+        public BlogCategService(string conn)
+        {
+            ConnStr = conn;
+        }
         /// <summary>
         /// 插入博客类别
         /// </summary>
@@ -21,7 +26,7 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
-                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser) VALUES (@CatelogName,@CreateUser);" +
+                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,Remark,CreateUser) VALUES (@CatelogName,@Remark,@CreateUser);" +
                     " SELECT  @@IDENTITY",categry).First();
                 return resBlogID;
             }
@@ -31,7 +36,7 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
-                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,CreateUser,UpdateUser) VALUES (@CatelogName,@CreateUser,@UpdateUser);" +
+                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,Remark,CreateUser,UpdateUser) VALUES (@CatelogName,@Remark,@CreateUser,@UpdateUser);" +
                     " SELECT  @@IDENTITY", categry, transaction).First();
                 return resBlogID;
             }

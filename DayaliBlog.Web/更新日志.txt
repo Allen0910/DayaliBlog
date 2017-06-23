@@ -21,3 +21,12 @@
 17-05-28 18:00 发布到CentOS上出错，提示环境变量的错误
 
 17-06-03 17:00 解决错误，安装sqlserver for linux
+
+17-06-05 15:00 配置数据库连接串由原来的注入方式改为使用IOptions接口(方便了在.NET Core应用程序中使用强类型配置,配置反序列化至配置类的实例中)
+
+17-06-05 18:00 添加日志，使用NLog：
+在.csproj中手动添加<PackageReference Include="NLog.Extensions.Logging" Version="1.0.0-rtm-alpha4" />，不知为何通过Nuget，找不到这个包，添加完后，手动添加nlog.config，然后在Configer中添加loggerFactory.AddNLog();，运行程序后会多出两个日志文件，nlog-all-*.log 是记录所有日志，nlog-own-*.log 记录跳过Microsoft 开头的类库输出的相关信息，剩下的信息。
+
+17-06-23 15:00 添加404错误页
+
+17-06-24 00:00 发布时Webconfig.config中不需要配置环境变量，出现500错误，出错原因为数据库连接串配置错误，修复字典业务类没有使用注入连接串的方式

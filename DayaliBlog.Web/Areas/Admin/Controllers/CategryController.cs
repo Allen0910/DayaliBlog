@@ -6,6 +6,8 @@ using DayaliBlog.Model.Blog;
 using DayaliBlog.Service.Blog;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using DayaliBlog.Model.CustomModel;
 
 namespace DayaliBlog.Web.Areas.Admin.Controllers
 {
@@ -13,9 +15,9 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
     public class CategryController : Controller
     {
         BlogCategService _categ;
-        public CategryController(BlogCategService categ)
+        public CategryController(IOptions<MyOptions> option)
         {
-            _categ = categ;
+            _categ = new BlogCategService(option.Value.DefaultConnection) ;
         }
         public IActionResult Index()
         {

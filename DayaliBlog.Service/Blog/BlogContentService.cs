@@ -14,7 +14,11 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogContentService
     {
-        public string ConnStr { get; set; }
+        public string ConnStr;
+        public BlogContentService(string connstr)
+        {
+            ConnStr = connstr;
+        }
         /// <summary>
         /// 添加博客
         /// </summary>

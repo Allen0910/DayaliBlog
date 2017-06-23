@@ -9,7 +9,11 @@ namespace DayaliBlog.Service.Blog
 {
     public class BlogCategRelService
     {
-        public string ConnStr { get; set; }
+        public string ConnStr;
+        public BlogCategRelService(string conn)
+        {
+            ConnStr = conn;
+        }
         public int Insert(int BlogID, int categBlogID)
         {
             StringBuilder strSql = new StringBuilder();

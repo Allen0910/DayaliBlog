@@ -9,7 +9,11 @@ namespace DayaliBlog.Service.Sys
 {
     public class SysUserService
     {
-        public string ConnStr { get; set; }
+        public string ConnStr;
+        public SysUserService(string conn)
+        {
+            ConnStr = conn;
+        }
         /// <summary>
         /// 根据用户名和密码获取用户信息
         /// </summary>

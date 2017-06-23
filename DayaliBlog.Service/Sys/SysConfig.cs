@@ -7,9 +7,13 @@ using DayaliBlog.Model.Sys;
 
 namespace DayaliBlog.Service.Sys
 {
-    public static class SysConfig
+    public class SysConfig
     {
-        public static string ConnStr { get; set; }
+        public static string ConnStr;
+        public SysConfig(string conn)
+        {
+            ConnStr = conn;
+        }
         /// <summary>
         /// 性别
         /// </summary>
@@ -40,7 +44,7 @@ namespace DayaliBlog.Service.Sys
         /// </summary>
         public const int UserType = 6;
 
-        public static List<T_SYS_CONFIG> GetConfigList(int configType)
+        public List<T_SYS_CONFIG> GetConfigList(int configType)
         {
             string strSql = "SELECT * FROM T_SYS_CONFIG WHERE ID="+configType;
             using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))
@@ -50,7 +54,7 @@ namespace DayaliBlog.Service.Sys
             }
         }
 
-        public static T_SYS_CONFIG GetConfig(int configType, int subBlogID)
+        public T_SYS_CONFIG GetConfig(int configType, int subBlogID)
         {
             string strSql = "SELECT * FROM T_SYS_CONFIG WHERE ID="+configType+" and SUB_ID="+subBlogID;
             using (var conn=ConnentionFactory.GetOpenSqlConnection(ConnStr))

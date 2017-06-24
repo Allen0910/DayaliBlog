@@ -30,3 +30,9 @@
 17-06-23 15:00 添加404错误页
 
 17-06-24 00:00 发布时Webconfig.config中不需要配置环境变量，出现500错误，出错原因为数据库连接串配置错误，修复字典业务类没有使用注入连接串的方式
+
+17-06-24 22:00 修改默认页：
+	routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+   前台首页和后台首页分别添加入口

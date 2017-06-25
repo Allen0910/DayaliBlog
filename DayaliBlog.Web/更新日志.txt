@@ -36,3 +36,5 @@
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
    前台首页和后台首页分别添加入口
+
+   17-06-25 21:00 新建Common类库，将工具类单独放到里面，日后有工具方法就会往里面添加

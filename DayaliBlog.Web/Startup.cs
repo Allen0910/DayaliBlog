@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DayaliBlog.Model.CustomModel;
 using NLog.Extensions.Logging;
+using Common.DomainRouter;
 
 namespace DayaliBlog.Web
 {
@@ -83,6 +84,9 @@ namespace DayaliBlog.Web
             app.UseSession();
             app.UseMvc(routes =>
             {
+                //网站域名,区域名,控制器名
+                routes.MapDomainRoute("www.dayali.net", "Admin", "Login");
+
                 routes.MapRoute(
                     name: "areaRoute",
                     template: "{area:exists}/{controller}/{action=Index}/{id?}");

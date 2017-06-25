@@ -42,13 +42,13 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                 return MsgContent("二次密码输入不相同！");
             }
 
-            oldpassword = Helper.MD5Hash(oldpassword);
+            oldpassword = Common.Security.MD5Security.MD5Hash(oldpassword);
             int userid= int.Parse(HttpContext.Session.GetInt32("userid").ToString());
             string username = HttpContext.Session.GetString("username");
             var list = _userService.GetList(username, oldpassword);
             if (list == null || list.Count <= 0)
                 return MsgContent("原密码错误！");
-            bool isSuccess = _userService.Update(new T_SYS_USER() {UserID = userid, Password = Helper.MD5Hash(newpwd1)});
+            bool isSuccess = _userService.Update(new T_SYS_USER() {UserID = userid, Password = Common.Security.MD5Security.MD5Hash(newpwd1)});
             if(isSuccess)
             return Content("<script>alert('修改密码成功！');parent.location.href='/Admin/Login'</script>", "text/html");
             return MsgContent("密码修改失败！");

@@ -31,7 +31,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
             {
                 return Content("empty");
             }
-            password = Helper.MD5Hash(password);
+            password = Common.Security.MD5Security.MD5Hash(password);
             var listUsers= _userService.GetList(username, password);
             if (listUsers.Count > 0)
             {

@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace DayaliBlog.Web
+namespace Common.Utility
 {
-    public class Helper
+    public class SafeSqlHelper
     {
         /// <summary>过滤SQL非法字符串
         /// 字符串长度不能超过40个,把前后空间都去除
@@ -57,21 +53,6 @@ namespace DayaliBlog.Web
                     return strTmp + endWith;
             }
             return oldStr;
-        }
-
-        /// <summary>
-        /// netcore下的实现MD5加密
-        /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public static string MD5Hash(string input)
-        {
-            using (var md5 = MD5.Create())
-            {
-                var result = md5.ComputeHash(Encoding.ASCII.GetBytes(input));
-                var strResult = BitConverter.ToString(result);
-                return strResult.Replace("-", "");
-            }
         }
     }
 }

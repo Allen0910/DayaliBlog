@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="nlog-all-2017-06-24.log" />
+    <None Remove="nlog-all-2017-06-25.log" />
+    <None Remove="nlog-own-2017-06-24.log" />
+    <None Remove="nlog-own-2017-06-25.log" />
     <None Remove="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
 
@@ -606,6 +610,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0-msbuild3-final" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\DayaliBlog.Model\DayaliBlog.Model.csproj" />
     <ProjectReference Include="..\DayaliBlog.Service\DayaliBlog.Service.csproj" />
   </ItemGroup>

@@ -64,7 +64,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
             }
             if (!string.IsNullOrEmpty(categ))
             {
-                categ = Helper.GetSafeSQL(categ);
+                categ = Common.Utility.SafeSqlHelper.GetSafeSQL(categ);
                 where += $" and g.CatelogID={categ}";
             }
             return where;

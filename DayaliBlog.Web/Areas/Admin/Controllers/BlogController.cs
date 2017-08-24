@@ -184,8 +184,8 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                     var filename = ContentDispositionHeaderValue
                         .Parse(imgFile.ContentDisposition)
                         .FileName
-                        .Trim('"');
-                    var extname = filename.Substring(filename.LastIndexOf("."), filename.Length - filename.LastIndexOf(".")); //扩展名，如.jpg
+                        .ToString();
+                    var extname = filename.Substring(filename.LastIndexOf('.'), filename.Length - filename.LastIndexOf(".", StringComparison.Ordinal)); //扩展名，如.jpg
 
                     #region 判断后缀
                     if (!extname.ToLower().Contains("jpg") && !extname.ToLower().Contains("png") && !extname.ToLower().Contains("gif"))

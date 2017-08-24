@@ -41,3 +41,4 @@
 
    17-07-31 16:30 添加MySql.Data 类库，支持MySql数据库，mysql数据不支持dbo,将sql语句中得dbo.前缀去掉
 
+   17-08-23 14:00 项目升级到.net core 2.0

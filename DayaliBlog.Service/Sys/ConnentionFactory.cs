@@ -23,8 +23,8 @@ namespace DayaliBlog.Service.Sys
         /// <returns></returns>
         public static DbConnection GetOpenSqlConnection(string connstrings)
         {
-            var conn = new SqlConnection(connstrings);
-            //var conn = new MySqlConnection(connstrings);
+            //var conn = new SqlConnection(connstrings);
+            var conn = new MySqlConnection(connstrings);
             conn.Open();
             return conn;
         }

@@ -26,7 +26,7 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
-                var resBlogID = conn.Query<int>(@"INSERT INTO [dbo].[T_BLOG_CATELOG](CatelogName,Remark,CreateUser) VALUES (@CatelogName,@Remark,@CreateUser);" +
+                var resBlogID = conn.Query<int>(@"INSERT INTO [T_BLOG_CATELOG](CatelogName,Remark,CreateUser) VALUES (@CatelogName,@Remark,@CreateUser);" +
                     " SELECT  @@IDENTITY",categry).First();
                 return resBlogID;
             }
@@ -94,7 +94,7 @@ namespace DayaliBlog.Service.Blog
         {
             using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
-                int resBlogID = conn.Execute("delete from dbo.T_BLOG_CATELOG where CatelogID=@id", new{id = categBlogID});
+                int resBlogID = conn.Execute("delete from T_BLOG_CATELOG where CatelogID=@id", new{id = categBlogID});
                 if (resBlogID > 0)
                     return true;
                 return false;

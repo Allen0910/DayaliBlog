@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.0-preview1-final" />
+    <PackageReference Include="MySql.Data" Version="8.0.8-dmr" />
   </ItemGroup>
 
   <ItemGroup>

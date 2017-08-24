@@ -108,7 +108,7 @@ namespace DayaliBlog.Service.Blog
 
         public List<BlogCategCount> GetCategCount(int userId)
         {
-            string strSql = "SELECT r.CatelogID AS CatelogID,c.CatelogName,COUNT(1) AS BlogCount\r\nFROM dbo.T_BLOG_CONTENT b\r\nINNER JOIN dbo.T_BLOG_CATELOG_REL r ON r.BlogID = b.BlogID\r\nINNER JOIN dbo.T_BLOG_CATELOG c ON c.CatelogID = r.CatelogID\r\nWHERE b.CreateUser=" + userId + "\r\nGROUP BY r.CatelogID,c.CatelogName ORDER BY BlogCount DESC,CatelogID ASC";
+            string strSql = "SELECT r.CatelogID AS CatelogID,c.CatelogName,COUNT(1) AS BlogCount\r\nFROM T_BLOG_CONTENT b\r\nINNER JOIN T_BLOG_CATELOG_REL r ON r.BlogID = b.BlogID\r\nINNER JOIN T_BLOG_CATELOG c ON c.CatelogID = r.CatelogID\r\nWHERE b.CreateUser=" + userId + "\r\nGROUP BY r.CatelogID,c.CatelogName ORDER BY BlogCount DESC,CatelogID ASC";
             using (var conn = ConnentionFactory.GetOpenSqlConnection(ConnStr))
             {
                 var list = conn.Query<BlogCategCount>(strSql).ToList();

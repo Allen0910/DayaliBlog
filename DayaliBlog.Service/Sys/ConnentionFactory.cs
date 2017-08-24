@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using MySql.Data.MySqlClient;
+using System.Data.Common;
 using System.Data.SqlClient;
 
 namespace DayaliBlog.Service.Sys
@@ -22,7 +23,8 @@ namespace DayaliBlog.Service.Sys
         /// <returns></returns>
         public static DbConnection GetOpenSqlConnection(string connstrings)
         {
-            var conn = new SqlConnection(connstrings);
+            //var conn = new SqlConnection(connstrings);
+            var conn = new MySqlConnection(connstrings);
             conn.Open();
             return conn;
         }

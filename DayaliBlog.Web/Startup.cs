@@ -25,8 +25,19 @@ namespace DayaliBlog.Web
 
             //配置数据库连接串
             services.Configure<MyOptions>(Configuration.GetSection("ConnectionStrings"));
+
+            //AddCookie时,添加SchemeName,不添加时报错
+            services.AddAuthentication("MyCookieAuthenticationScheme")
+                .AddCookie("MyCookieAuthenticationScheme", options => {
+                    options.AccessDeniedPath = "/Areas/Admin/Forbidden";
+                    options.LoginPath = "/Areas/Admin/Login";
+                    options.LogoutPath = "/Areas/Admin/Login";
+                });
+
             // Add framework services.
             services.AddMvc();
+
+            
 
             //添加gb2312的支持
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
@@ -49,6 +60,8 @@ namespace DayaliBlog.Web
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+            //添加身份认证
+            app.UseAuthentication();
             app.UseSession();
             app.UseStaticFiles();
             app.UseMvc(routes =>

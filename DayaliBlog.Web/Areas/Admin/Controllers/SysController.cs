@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DayaliBlog.Model.Sys;
 using DayaliBlog.Service.Sys;
@@ -28,7 +29,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Index(string oldpassword,string newpwd1,string newpwd2)
         {
-            if (HttpContext.Session.GetInt32("userid") == null)
+            if (!User.Identity.IsAuthenticated)
             {
                 return MsgContent("未找到该用户，请联系管理员!");
             }
@@ -43,8 +44,8 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
             }
 
             oldpassword = Common.Security.MD5Security.MD5Hash(oldpassword);
-            int userid= int.Parse(HttpContext.Session.GetInt32("userid").ToString());
-            string username = HttpContext.Session.GetString("username");
+            int userid= int.Parse(User.Identities.First(u=>u.IsAuthenticated).FindFirst(ClaimTypes.PrimarySid).Value);
+            string username =User.Identities.First(u=>u.IsAuthenticated).FindFirst(ClaimTypes.Name).Value;
             var list = _userService.GetList(username, oldpassword);
             if (list == null || list.Count <= 0)
                 return MsgContent("原密码错误！");

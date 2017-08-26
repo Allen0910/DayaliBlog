@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using DayaliBlog.Model.Blog;
 using DayaliBlog.Service.Blog;
@@ -38,7 +39,9 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Add(T_BLOG_CATELOG model)
         {
-            int userId = HttpContext.Session.GetInt32("userid")==null?1:int.Parse(HttpContext.Session.GetInt32("userid").ToString());
+            //int userId = HttpContext.Session.GetInt32("userid")==null?1:int.Parse(HttpContext.Session.GetInt32("userid").ToString());
+            int userId = int.Parse(User.Identities.First(u => u.IsAuthenticated)
+                .FindFirst(ClaimTypes.PrimarySid).Value);
             if (model.CatelogID == 0)
             {
                 model.CreateUser = userId;

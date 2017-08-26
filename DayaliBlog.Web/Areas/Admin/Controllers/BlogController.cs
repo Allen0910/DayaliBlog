@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Security.Claims;
 using DayaliBlog.Model.Blog;
 using DayaliBlog.Service.Blog;
 using DayaliBlog.Service.Sys;
@@ -74,12 +76,17 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
         {
             try
             {
-                if (HttpContext.Session.GetInt32("userid") == null || HttpContext.Session.GetInt32("userid") == 0)
-                {
+                //if (HttpContext.Session.GetInt32("userid") == null || HttpContext.Session.GetInt32("userid") == 0)
+                //{
+                //    return Content("<script>alert('Please Login This System！');location.href='/Admin/Login'</script>", "text/html");
+                //}
+
+                if(!User.Identity.IsAuthenticated)
                     return Content("<script>alert('Please Login This System！');location.href='/Admin/Login'</script>", "text/html");
-                }
                 var contion = GetWhere(key, start, end, categ);
-                contion += " and b.CreateUser=" + HttpContext.Session.GetInt32("userid");
+                //contion += " and b.CreateUser=" + HttpContext.Session.GetInt32("userid");
+                contion += " and b.CreateUser=" + (User.Identities.First(u => u.IsAuthenticated)
+                               .FindFirst(ClaimTypes.PrimarySid)).Value;
                 var list = _contentService.GetListByPage("", pageSize, pageIndex, contion);
                 return Json(list);
             }
@@ -120,9 +127,11 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                 //if (!ModelState.IsValid)
                 //    return Content("<script> alert('博客内容有误，请检查博客内容！'); location.href='/Admin/Blog/Add'</script>", "text/html");
                 int blogId = 0;
-                int userId = HttpContext.Session.GetInt32("userid") == null
-                    ? 1
-                    : int.Parse(HttpContext.Session.GetInt32("userid").ToString());
+                //int userId = HttpContext.Session.GetInt32("userid") == null
+                //    ? 1
+                //    : int.Parse(HttpContext.Session.GetInt32("userid").ToString());
+                int userId= int.Parse(User.Identities.First(u => u.IsAuthenticated)
+                    .FindFirst(ClaimTypes.PrimarySid).Value);
                 if (content.BlogID == 0)
                 {
                     content.CreateTIme = DateTime.Now;

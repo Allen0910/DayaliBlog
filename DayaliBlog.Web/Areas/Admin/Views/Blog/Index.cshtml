@@ -89,9 +89,10 @@
                     $("#pagecount").text(pagecount);
                     $("#totalcount").text(count);
 
-                    laypage({
-                        cont: 'layPages',
-                        pages: pagecount, //总页数
+                    laypage.render({
+                        elem: 'layPages',
+                        limit: pageSize,
+                        count: count,
                         jump:function(obj) {
                             var pageIndex = obj.curr;
                             loadData(pageIndex);
@@ -153,9 +154,10 @@
                         $("#pagecount").text(pagecount);
                         $("#totalcount").text(count);
 
-                        laypage({
-                            cont: 'layPages',
-                            pages: pagecount, //总页数
+                        laypage.render({
+                            elem: 'layPages',
+                            limit: pageSize,
+                            count: count,
                             jump: function (obj) {
                                 var pageIndex = obj.curr;
                                 loadData(pageIndex);

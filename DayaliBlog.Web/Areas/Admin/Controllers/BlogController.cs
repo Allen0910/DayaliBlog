@@ -184,7 +184,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                     var filename = ContentDispositionHeaderValue
                         .Parse(imgFile.ContentDisposition)
                         .FileName
-                        .ToString();
+                        .Value;
                     var extname = filename.Substring(filename.LastIndexOf('.'), filename.Length - filename.LastIndexOf(".", StringComparison.Ordinal)); //扩展名，如.jpg
 
                     #region 判断后缀
@@ -202,7 +202,8 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                     }
                     #endregion
 
-                    var filename1 = System.Guid.NewGuid().ToString().Substring(0, 6) + extname;
+                    var filename1 = (System.Guid.NewGuid().ToString().Substring(0, 6) + extname);
+                    filename1 = filename1.Substring(0, filename1.Length - 1);
                     tempname = filename1;
                     var path = hostingEnv.WebRootPath; //网站静态文件目录  wwwroot
                     string dir = DateTime.Now.ToString("yyyyMMdd");
@@ -213,6 +214,7 @@ namespace DayaliBlog.Web.Areas.Admin.Controllers
                         System.IO.Directory.CreateDirectory(wuli_path);
                     }
                     filename = wuli_path + filename1;
+                    filename = filename.Substring(0, filename.Length - 1);
                     size += imgFile.Length;
                     using (FileStream fs = System.IO.File.Create(filename))
                     {

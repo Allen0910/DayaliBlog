@@ -12,14 +12,16 @@
         <label class="layui-form-label">@Html.DisplayNameFor(a => a.BlogCover)</label>
         <div class="layui-input-block">
             @Html.TextBoxFor(a=>a.BlogCover, new { @class="layui-input",id="txtCover",style= "width:250px;position:absolute;margin-left:120px",@readonly=true })
-            <input type="file" name="BlogCover" class="layui-upload-file" >
+            <button type="button" class="layui-btn" id="fileUp">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
         </div>
     </div>
     <input type="hidden" value="@Model.BlogID" name="BlogID"/>
     <div class="layui-form-item">
         <label class="layui-form-label">博客类型</label>
         <div class="layui-input-block"  style="width: 30%">
-            <select name="BlogType" lay-verify="required">
+            <select name="BlogType" class="layui-select" lay-verify="required">
                 @foreach (DayaliBlog.Model.Sys.T_SYS_CONFIG config in ViewBag.BlogTypes)
                 {
                     if (config.SUB_ID == Model.BlogType)
@@ -35,7 +37,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">所属分类</label>
         <div class="layui-input-block" style="width: 30%">
-            <select name="CatelogID" lay-verify="required">
+            <select name="CatelogID" class="layui-select" lay-verify="required">
                 @foreach (DayaliBlog.Model.Blog.T_BLOG_CATELOG categ in ViewBag.CategList)
                 {
                     if (categ.CatelogID == Model.CatelogID)
@@ -85,7 +87,8 @@
     layui.use('upload',
         function () {
             var $ = layui.jquery;
-            layui.upload({
+            layui.upload.render({
+                elem:"#fileUp",
                 url: '/Admin/Blog/ImgUpload',
                 ext: 'jpg|png|gif',
                 title: '上传封面',
@@ -93,7 +96,7 @@
                     //返回的参数item，即为当前的input DOM对象
                     console.log('文件上传中');
                 },
-                success: function (res) {
+                done: function (res) {
                     console.log(res);
                     var json = res.data;
                     console.log(json.src);
